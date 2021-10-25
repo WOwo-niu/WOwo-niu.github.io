@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-10-25T17:00:00.790Z</updated>
+  <updated>2021-10-25T17:19:36.616Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo admin</title>
+    <link href="http://example.com/2021/10/26/%E5%BF%AB%E9%80%9F%E4%B8%8A%E4%BC%A0%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
+    <id>http://example.com/2021/10/26/%E5%BF%AB%E9%80%9F%E4%B8%8A%E4%BC%A0%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</id>
+    <published>2021-10-25T17:06:36.000Z</published>
+    <updated>2021-10-25T17:19:36.616Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在hexo根目录下配置文件（&lt;/p&gt;
+</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
@@ -42,14 +64,14 @@
     <link href="http://example.com/2021/10/25/%E2%80%9CMysql%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E2%80%9D/"/>
     <id>http://example.com/2021/10/25/%E2%80%9CMysql%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E2%80%9D/</id>
     <published>2021-10-25T04:03:30.912Z</published>
-    <updated>2021-10-25T17:04:12.592Z</updated>
+    <updated>2021-10-25T17:19:38.222Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;title: Mysql基本语法&lt;br&gt;tags: []&lt;br&gt;categories: []&lt;/p&gt;
+    <summary type="html">&lt;p&gt;title: “Mysql基本语法”&lt;br&gt;tags: []&lt;br&gt;categories: []&lt;/p&gt;
 &lt;p&gt;date: 2021-10-25 12:03:00&lt;/p&gt;
 &lt;p&gt;SQL 教程 | 菜鸟教程：&lt;span class=&quot;exturl&quot;&gt;&lt;a</summary>
         
