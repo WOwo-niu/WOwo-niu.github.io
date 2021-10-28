@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-10-25T17:00:00.790Z</updated>
+  <updated>2021-10-28T08:44:42.671Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>无聊的插件——hexo admin</title>
+    <link href="http://example.com/2021/10/26/hexo%20admin/"/>
+    <id>http://example.com/2021/10/26/hexo%20admin/</id>
+    <published>2021-10-25T17:06:00.000Z</published>
+    <updated>2021-10-28T08:44:42.671Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">
+        &lt;h4 id=&quot;1：安装插件&quot;   &gt;
+          &lt;a href=&quot;#1：安装插件&quot; class=&quot;heading-link&quot;&gt;&lt;i class=&quot;fas fa-link&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;a href=&quot;#1：安装插件&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
