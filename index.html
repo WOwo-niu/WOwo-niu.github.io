@@ -64,6 +64,82 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-SQL注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2023-02-23T07:20:57.000Z" itemprop="datePublished">2023-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1><span id="目录">目录</span></h1><!-- toc -->
+
+<ul>
+<li><a href="#1-%E5%8E%9F%E7%90%86">1、原理</a><ul>
+<li><a href="#11%E4%BB%80%E4%B9%88%E6%98%AFweb">1.1什么是WEB</a></li>
+<li><a href="#12-web%E6%8A%80%E6%9C%AF%E5%88%86%E7%B1%BB">1.2 WEB技术分类</a><ul>
+<li><a href="#121%E5%89%8D%E7%AB%AF">1.2.1前端</a></li>
+<li><a href="#122%E5%90%8E%E7%AB%AF">1.2.2后端</a></li>
+</ul>
+</li>
+<li><a href="#13%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93">1.3什么是数据库</a></li>
+<li><a href="#14sql%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86">1.4SQL注入原理</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<p>[toc]</p>
+<h1><span id="1-原理">1、原理</span></h1><h2><span id="11什么是web">1.1什么是WEB</span></h2><p>WEB是建立在Internet上的一种网络服务，为浏览者在Internet上查找和浏览信息提供了图形化的、易于访问的交互页面。</p>
+<h2><span id="12-web技术分类">1.2 WEB技术分类</span></h2><h3><span id="121前端">1.2.1前端</span></h3><p>前端就是我们平常上网所看到的东西，包括了页面如何布局、如何上色、如何输入、如何点击等等。通俗的讲，前端就是在前面的，看得见的。</p>
+<p>前端必学的三个技术：</p>
+<blockquote>
+<p>1.HTML(超文本标记语言)，不是一门编程语言，而是用于定义内容结构的<em>标记语言</em>。</p>
+<p>2.CSSCSS 也不是真正的编程语言，甚至不是标记语言。用于渲染web页面，</p>
+<p>3.JavaScript是一种脚本，一门编程语言，它可以在网页上实现复杂的功能，网页展现给你的不是简单的静态信息，而是实时的内容更新，交互式的地图，2D/3D 动画，滚动播放的视频等等。</p>
+</blockquote>
+<h3><span id="122后端">1.2.2后端</span></h3><p>后端是在后台工作的，控制着前端的内容，主要负责程序设计架构思想，<em><strong>管理数据库</strong></em>等。涉及动态语言如PHP、ASP、JSP等。</p>
+<h2><span id="13什么是数据库">1.3什么是数据库</span></h2><p>数据库指的是用于存储数据和调用数据的地方数据库有自己的语言，也就是sql语句。</p>
+<p>常用的SQL语句：(SQL语句对大小写不敏感)</p>
+<p>1.查询：SELECT</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name 	#从table_name表中查询column_name字段</span><br><span class="line"><span class="number">2.</span><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column_name <span class="keyword">FROM</span> table_name 	#返回唯一值，不重复。</span><br><span class="line"><span class="number">3.</span><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name 	#从table_name表中查询所有字段</span><br></pre></td></tr></table></figure>
+
+<p>2.过滤：WHERE</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="14sql注入原理">1.4SQL注入原理</span></h2><p>WEB通过后SQL语句存储和调用数据库数据，攻击者通过拼接SQL语句，将其带入数据库中查询，导致数据库信息泄露。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/" data-id="cleld51pd0000vsvl3dmz9dkb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB/" rel="tag">WEB</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Windows与网络基础" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" class="article-date">
@@ -86,9 +162,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1、环境配置"><a href="#1、环境配置" class="headerlink" title="1、环境配置"></a>1、环境配置</h1><p>操作系统快速搜索文件  </p>
-<h1 id="2、Windows命令"><a href="#2、Windows命令" class="headerlink" title="2、Windows命令"></a>2、Windows命令</h1><p>常用命令：  </p>
-<h2 id="2-1目录操作"><a href="#2-1目录操作" class="headerlink" title="2.1目录操作"></a>2.1目录操作</h2><ul>
+        <h1><span id="目录">目录</span></h1><!-- toc -->
+
+<ul>
+<li><a href="#1-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE">1、环境配置</a></li>
+<li><a href="#2-windows%E5%91%BD%E4%BB%A4">2、Windows命令</a><ul>
+<li><a href="#21%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C">2.1目录操作</a></li>
+<li><a href="#22%E7%BD%91%E7%BB%9C%E6%93%8D%E4%BD%9C">2.2网络操作</a></li>
+</ul>
+</li>
+<li><a href="#3-%E6%B3%A8%E5%86%8C%E8%A1%A8">3、注册表</a><ul>
+<li><a href="#31%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%A8%E5%86%8C%E8%A1%A8">3.1什么是注册表？</a></li>
+<li><a href="#32%E6%B3%A8%E5%86%8C%E8%A1%A8%E7%BC%96%E8%BE%91%E5%99%A8">3.2注册表编辑器</a><ul>
+<li><a href="#321%E7%BC%96%E8%BE%91%E5%99%A8%E8%AF%B4%E6%98%8E">3.2.1编辑器说明</a></li>
+<li><a href="#322%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BA%94%E5%A4%A7%E6%A0%B9%E9%94%AE">3.2.2注册表五大根键</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#4-%E9%98%B2%E7%81%AB%E5%A2%99">4、防火墙</a><ul>
+<li><a href="#41%E5%AE%9A%E4%B9%89%E5%92%8C%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86">4.1定义和工作原理</a></li>
+<li><a href="#42-%E8%AF%A6%E8%A7%A3">4.2 详解</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<p>[toc]</p>
+<h1><span id="1-环境配置">1、环境配置</span></h1><p>操作系统快速搜索文件  </p>
+<h1><span id="2-windows命令">2、Windows命令</span></h1><p>常用命令：  </p>
+<h2><span id="21目录操作">2.1目录操作</span></h2><ul>
 <li>切换磁盘：<code>d:</code>（进入d盘）</li>
 <li>切换磁盘和目录：<code>cd /d d:/test</code> (进入d盘test文件夹)</li>
 <li>进入文件夹：<code>cd \test1\test2</code> (进入test2文件夹)</li>
@@ -100,22 +203,66 @@
 <li>显示当前目录位置：<code>cd</code></li>
 <li>显示指定磁盘的当前目录位置：<code>cd d:</code></li>
 </ul>
-<h2 id="2-2网络操作"><a href="#2-2网络操作" class="headerlink" title="2.2网络操作"></a>2.2网络操作</h2><ul>
+<h2><span id="22网络操作">2.2网络操作</span></h2><ul>
 <li>延迟和丢包率：<code>ping ip/域名</code></li>
 <li>显示本机IP：<code>ipconfig</code></li>
 <li>清楚本地DNS缓存：ipconfig /flushdns</li>
 <li>显示ARP缓存：<code>arp -a</code></li>
 <li>路由追踪：<code>tracert ip/域名</code></li>
 </ul>
-<h1 id="3、注册表"><a href="#3、注册表" class="headerlink" title="3、注册表"></a>3、注册表</h1><h2 id="3-1什么是注册表？"><a href="#3-1什么是注册表？" class="headerlink" title="3.1什么是注册表？"></a>3.1什么是注册表？</h2><p> 注册表是windows操作系统、硬件设备以及客户应用程序得以正常运行和保存设置的核心“数据库”，也可以说是一个非常巨大的<strong>树状分层结构的数据库系统</strong>。  </p>
+<h1><span id="3-注册表">3、注册表</span></h1><h2><span id="31什么是注册表">3.1什么是注册表？</span></h2><p> 注册表是windows操作系统、硬件设备以及客户应用程序得以正常运行和保存设置的核心“数据库”，也可以说是一个非常巨大的<strong>树状分层结构的数据库系统</strong>。  </p>
 <p> 注册表中记录了用户安装在计算机上的软件和每个程序的相关信息，通过它可以控制硬件、软件、用户环境和操作系统界面的数据信息文件。  </p>
 <p> 注册表文件的数据信息保存在system.dat和user.dat中、利用regedit.exe程序能够存取注册表文件。</p>
-<h2 id="3-2注册表编辑器"><a href="#3-2注册表编辑器" class="headerlink" title="3.2注册表编辑器"></a>3.2注册表编辑器</h2><h3 id="3-2-1编辑器说明"><a href="#3-2-1编辑器说明" class="headerlink" title="3.2.1编辑器说明"></a>3.2.1编辑器说明</h3><p><code>win</code>+<code>r</code>调出运行，输入<code>regedit</code>进入注册表编辑器。  </p>
+<h2><span id="32注册表编辑器">3.2注册表编辑器</span></h2><h3><span id="321编辑器说明">3.2.1编辑器说明</span></h3><p><code>win</code>+<code>r</code>调出运行窗口，输入<code>regedit</code>进入注册表编辑器。  </p>
+<table>
+<thead>
+<tr>
+<th>根键：</th>
+<th>注册表计算机下的分支，可以理解为文件夹，<strong>以HKEY座位前缀</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>项：</td>
+<td>可以理解为根键的子文件夹，分<strong>父项</strong>和<strong>子项</strong>，包含值。</td>
+</tr>
+<tr>
+<td>值：</td>
+<td>由名称、数据类型和数据三部分组成</td>
+</tr>
+</tbody></table>
+<h3><span id="322注册表五大根键">3.2.2注册表五大根键</span></h3><p><em><strong>注：五大根键实际上平不是五个，HKEY_LOCAL_MACHINE、HKEY_USERS这两个才是真正的注册表键，其它都是从某个分支映射出来的，</strong></em></p>
+<table>
+<thead>
+<tr>
+<th>HKEY_CLASSES_ROOT</th>
+<th>该根键包括启动应用程序所需的全部信息，包括扩展名，应用程序与文档之间的关系，驱动程序名，DDE和OLE信息，类ID编号和应用程序与文档的图标等。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HKEY_CURRENT_USER</td>
+<td>根键包括当前登录用户的配置信息，包括环境变量，个人程序以及桌面设置等</td>
+</tr>
+<tr>
+<td>HKEY_LOCAL_MACHINE</td>
+<td>根键包括本地计算机的系统信息，包括硬件和操作系统信息，安全数据和计算机专用的各类软件设置信息</td>
+</tr>
+<tr>
+<td>HKEY_USERS</td>
+<td>根键包括计算机的所有用户使用的配置数据，这些数据只有在用户登录系统时才能访问。这些信息告诉系统当前用户使用的图标，激活的程序组，开始菜单的内容以及颜色，字体</td>
+</tr>
+<tr>
+<td>HKEY_CURRENT_CONFIG</td>
+<td>根键包括当前硬件的配置信息，其中的信息是从HKEY_LOCAL_MACHINE中映射出来的。</td>
+</tr>
+</tbody></table>
+<h1><span id="4-防火墙">4、防火墙</span></h1><h2><span id="41定义和工作原理">4.1定义和工作原理</span></h2><p>定义：是一种计算机网络安全系统，可以限制进出网络的互联网流量。</p>
+<p>工作原理：过滤掉异常或不受信任的流量，<strong>允许正常或受信任的流量通过</strong>。</p>
+<h2><span id="42-详解">4.2 详解</span></h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/461078581">53 张图详解防火墙的 55 个知识点 - 知乎 (zhihu.com)</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" data-id="cleehpfyi0001psvl594vbd4q" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" data-id="cleld51pq0003vsvl2nc4dt1b" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" rel="tag">网络通信与协议安全</a></li></ul>
@@ -150,23 +297,23 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<h2><span id="quick-start">Quick Start</span></h2><h3><span id="create-a-new-post">Create a new post</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h3><span id="run-server">Run server</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h3><span id="generate-static-files">Generate static files</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h3><span id="deploy-to-remote-sites">Deploy to remote sites</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/21/hello-world/" data-id="cleehpfye0000psvl1p6z2tgo" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/21/hello-world/" data-id="cleld51pv0006vsvleuk5670i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -189,7 +336,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" rel="tag">网络通信与协议安全</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB/" rel="tag">WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" rel="tag">网络通信与协议安全</a></li></ul>
     </div>
   </div>
 
@@ -199,7 +346,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络通信与协议安全</a>
+      <a href="/tags/WEB/" style="font-size: 10px;">WEB</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络通信与协议安全</a>
     </div>
   </div>
 
@@ -219,6 +366,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
+          </li>
         
           <li>
             <a href="/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">Windows与网络基础</a>
