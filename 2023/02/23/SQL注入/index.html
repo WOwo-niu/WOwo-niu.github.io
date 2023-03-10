@@ -7,15 +7,15 @@
   
   <title>SQL注入 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录   1、原理 1.1什么是WEB 1.2 WEB技术分类 1.2.1前端 1.2.2中端 1.2.3后端   1.3什么是数据库 1.4SQL注入原理      [toc] 1、原理1.1什么是WEBWEB是建立在Internet上的一种网络服务，为浏览者在Internet上查找和浏览信息提供了图形化的、易于访问的交互页面。 1.2 WEB技术分类1.2.1前端前端就是我们平常上网所看到的东">
+  <meta name="description" content="目录   1、原理 1.1什么是WEB 1.2 WEB技术分类 1.2.1前端 1.2.2中端 1.2.3后端   1.3什么是数据库 1.4SQL注入原理 1.4.1字符串内联注入 1.4.2数字值内联注入 1.4.3终止式SQL注入 1.4.4堆叠查询        [toc] 1、原理1.1什么是WEBWEB是建立在Internet上的一种网络服务，为浏览者在Internet上查找和浏览信息">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL注入">
 <meta property="og:url" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="目录   1、原理 1.1什么是WEB 1.2 WEB技术分类 1.2.1前端 1.2.2中端 1.2.3后端   1.3什么是数据库 1.4SQL注入原理      [toc] 1、原理1.1什么是WEBWEB是建立在Internet上的一种网络服务，为浏览者在Internet上查找和浏览信息提供了图形化的、易于访问的交互页面。 1.2 WEB技术分类1.2.1前端前端就是我们平常上网所看到的东">
+<meta property="og:description" content="目录   1、原理 1.1什么是WEB 1.2 WEB技术分类 1.2.1前端 1.2.2中端 1.2.3后端   1.3什么是数据库 1.4SQL注入原理 1.4.1字符串内联注入 1.4.2数字值内联注入 1.4.3终止式SQL注入 1.4.4堆叠查询        [toc] 1、原理1.1什么是WEBWEB是建立在Internet上的一种网络服务，为浏览者在Internet上查找和浏览信息">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-23T07:20:57.000Z">
-<meta property="article:modified_time" content="2023-02-26T15:35:31.821Z">
+<meta property="article:modified_time" content="2023-03-09T14:16:55.044Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="WEB">
 <meta name="twitter:card" content="summary">
@@ -101,7 +101,13 @@
 </ul>
 </li>
 <li><a href="#13%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93">1.3什么是数据库</a></li>
-<li><a href="#14sql%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86">1.4SQL注入原理</a></li>
+<li><a href="#14sql%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86">1.4SQL注入原理</a><ul>
+<li><a href="#141%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%86%85%E8%81%94%E6%B3%A8%E5%85%A5">1.4.1字符串内联注入</a></li>
+<li><a href="#142%E6%95%B0%E5%AD%97%E5%80%BC%E5%86%85%E8%81%94%E6%B3%A8%E5%85%A5">1.4.2数字值内联注入</a></li>
+<li><a href="#143%E7%BB%88%E6%AD%A2%E5%BC%8Fsql%E6%B3%A8%E5%85%A5">1.4.3终止式SQL注入</a></li>
+<li><a href="#144%E5%A0%86%E5%8F%A0%E6%9F%A5%E8%AF%A2">1.4.4堆叠查询</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -121,11 +127,16 @@
 <p>Web前端是指Web开发中负责实现Web界面和用户交互的技术领域，通常指网站或Web应用程序中运行在用户设备（如计算机、手机、平板电脑）上的前端部分，包括网页的设计、布局、样式、交互和效果等方面。</p>
 <p>Web前端技术主要包括以下几个方面：</p>
 <ol>
-<li>HTML：负责Web页面的结构和内容的描述，是Web前端技术的基础。</li>
-<li>CSS：负责Web页面的样式和布局的描述，包括字体、颜色、边框、背景等方面。</li>
-<li>JavaScript：负责Web页面的交互和效果的实现，包括事件处理、动画效果、表单验证等方面。</li>
-<li>前端框架和库：为Web前端开发提供了更高效、更简单、更规范的开发方式，如Vue.js、React、jQuery等。</li>
-<li>前端工具：为Web前端开发提供了更好的开发体验和效率，如Webpack、Gulp、Grunt等。</li>
+<li><p>HTML：负责Web页面的结构和内容的描述，是Web前端技术的基础。</p>
+</li>
+<li><p>CSS：负责Web页面的样式和布局的描述，包括字体、颜色、边框、背景等方面。</p>
+</li>
+<li><p>JavaScript：负责Web页面的交互和效果的实现，包括事件处理、动画效果、表单验证等方面。</p>
+</li>
+<li><p>前端框架和库：为Web前端开发提供了更高效、更简单、更规范的开发方式，如Vue.js、React、jQuery等。</p>
+</li>
+<li><p>前端工具：为Web前端开发提供了更好的开发体验和效率，如Webpack、Gulp、Grunt等。</p>
+</li>
 </ol>
 </blockquote>
 <h3><span id="122中端">1.2.2中端</span></h3><blockquote>
@@ -133,10 +144,14 @@
 <p>Web中端技术的发展，主要是为了解决Web应用程序中业务逻辑处理越来越复杂的问题。随着Web应用程序的快速发展和功能日益复杂，Web前端和Web后端已经无法满足业务逻辑处理的需求，因此Web中端技术应运而生。</p>
 <p>Web中端技术主要包括以下几个方面：</p>
 <ol>
-<li>业务逻辑处理：负责Web应用程序的业务逻辑处理，如数据处理、计算、验证、数据交互等。</li>
-<li>中间件开发：负责处理Web应用程序中的中间件，如消息队列、缓存、搜索、分布式等。</li>
-<li>Web服务开发：负责Web应用程序的接口开发，如RESTful API、SOAP等。</li>
-<li>分布式系统开发：负责Web应用程序中的分布式系统开发和管理。</li>
+<li><p>业务逻辑处理：负责Web应用程序的业务逻辑处理，如数据处理、计算、验证、数据交互等。</p>
+</li>
+<li><p>中间件开发：负责处理Web应用程序中的中间件，如消息队列、缓存、搜索、分布式等。</p>
+</li>
+<li><p>Web服务开发：负责Web应用程序的接口开发，如RESTful API、SOAP等。</p>
+</li>
+<li><p>分布式系统开发：负责Web应用程序中的分布式系统开发和管理。</p>
+</li>
 </ol>
 <p>Web中端技术的发展趋势是面向分布式和微服务架构，将Web应用程序中的业务逻辑处理和中间件拆分成独立的服务，实现高可用、高性能和高扩展性。同时，Web中端技术也需要具备一定的前端和后端技术，与Web前端和Web后端协同工作，共同构建出一个完整的Web应用程序。</p>
 </blockquote>
@@ -145,29 +160,264 @@
 <p>Web后端是指Web开发中负责处理服务器端逻辑和数据处理的技术领域，主要包括网站或Web应用程序中运行在服务器端的后端部分，用于处理用户请求、存储数据、提供API等功能。</p>
 <p>Web后端技术主要包括以下几个方面：</p>
 <ol>
-<li>服务器端语言：Web后端的核心语言，用于处理请求和响应、连接数据库、实现业务逻辑等，如PHP、Java、Python、Node.js等。</li>
-<li>数据库：Web后端需要用到的数据存储和查询，常用的关系型数据库有MySQL、Oracle、SQL Server等，常用的非关系型数据库有MongoDB、Redis等。</li>
-<li>Web框架和库：为Web后端开发提供了更高效、更简单、更规范的开发方式，如Django、Flask、Spring、Express等。</li>
-<li>Web服务器：用于接收和处理来自客户端的HTTP请求，将请求分发给后端程序处理，如Apache、Nginx等。</li>
+<li><p>服务器端语言：Web后端的核心语言，用于处理请求和响应、连接数据库、实现业务逻辑等，如PHP、Java、Python、Node.js等。</p>
+</li>
+<li><p>数据库：Web后端需要用到的数据存储和查询，常用的关系型数据库有MySQL、Oracle、SQL Server等，常用的非关系型数据库有MongoDB、Redis等。</p>
+</li>
+<li><p>Web框架和库：为Web后端开发提供了更高效、更简单、更规范的开发方式，如Django、Flask、Spring、Express等。</p>
+</li>
+<li><p>Web服务器：用于接收和处理来自客户端的HTTP请求，将请求分发给后端程序处理，如Apache、Nginx等。</p>
+</li>
 </ol>
 <p>Web后端开发的目标是实现服务器端逻辑和数据处理功能，为Web前端提供数据和服务支持。在Web应用程序中，Web后端和Web前端协同工作，共同构建出一个完整的Web应用程序。由于Web应用程序的复杂性和高并发性，Web后端开发也成为了Web开发中的重要领域。</p>
 </blockquote>
-<h2><span id="13什么是数据库">1.3什么是数据库</span></h2><p>数据库指的是用于存储数据和调用数据的地方数据库有自己的语言，也就是sql语句。</p>
+<h2><span id="13什么是数据库">1.3什么是数据库</span></h2><p>数据库指的是用于存储数据和调用数据的地方数据库有自己的语言，也就是SQL语句。</p>
 <p>常用的SQL语句：(SQL语句对大小写不敏感)</p>
-<p>1.查询：SELECT</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name 	#从table_name表中查询column_name字段</span><br><span class="line"><span class="number">2.</span><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column_name <span class="keyword">FROM</span> table_name 	#返回唯一值，不重复。</span><br><span class="line"><span class="number">3.</span><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name 	#从table_name表中查询所有字段</span><br></pre></td></tr></table></figure>
+<p><strong>数据类型</strong>：</p>
+<ul>
+<li>数字：不需要使用单引号表示</li>
+<li>其他类型：使用单引号表示</li>
+</ul>
+<ol>
+<li>查询：SELECT</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name 	#从table_name表中查询column_name字段</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column_name <span class="keyword">FROM</span> table_name 	#返回唯一值，不重复。</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> table_name 	#从table_name表中查询所有字段在</span><br></pre></td></tr></table></figure>
 
-<p>2.过滤：WHERE</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>过滤：WHERE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column1_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
 
+<ol start="3">
+<li><p>运算符AND&amp;OR：<strong>AND</strong>比<strong>OR</strong>拥有更高的优先级！！！</p>
+</li>
+<li><p>排序ORDER BY</p>
+<p>接受一个列名作为参数，或者接受一个简单地，能标识特定列的数字。</p>
+<p>可以通过增大ORDER BY子句中代表列的数字来识别查询中的列数，若<code>ORDER BY N</code>时报错，意味着查询中有N-1列。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url/?id=12 order by 1 </span><br></pre></td></tr></table></figure></li>
+<li><p>注释</p>
+</li>
+</ol>
+<table>
+        <tr>
+            <th>数据库</th>
+            <th>注释</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td rowspan="2">SQL Server、Oracle和PostgreSQL</td>
+            <td>--（双连字符）</td>
+            <td>用于单行注释</td>
+        </tr>
+        <tr>
+            <td>/*  */</td>
+            <td>用于多行注释</td>
+        </tr>
+        <tr>
+            <td rowspan="3">MySQL</td>
+            <td>--（双连字符）</td>
+            <td>用于单行注释。要求第二个连字符后面跟一个空格或控制字符（如制表符、换行符）</td>
+        </tr>
+        <tr>
+            <td>#</td>
+            <td>用于单行注释</td>
+        </tr>
+        <tr>
+            <td>/*  */</td>
+            <td>用于多行注释</td>
+        </tr>
+</table>
 
-
+<ol start="6">
+<li>连接符</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>连接示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SQL Server</td>
+<td>‘a’+’b’=’ab’</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>‘a’(space)’b’=’ab’</td>
+</tr>
+<tr>
+<td>Oracle和PostgreSQL</td>
+<td>‘a’||’b’(space)=’ab’</td>
+</tr>
+</tbody></table>
+<ol start="7">
+<li><p>UNION联合查询：合并多条SELECT语句的查询结果 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> COLUMN_1,COLUMN_2......FROM TABLE_1 <span class="keyword">UNION</span> <span class="keyword">SELECT</span> COLUMN_1,COLUMN_2......FROM TABLE_2</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>查询返回的列数必须相同</li>
+<li>返回的数据类型必须相同</li>
+</ul>
+<ol start="8">
+<li><p>CASE</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">CONDITION</span> <span class="keyword">THEN</span> ACTION1 <span class="keyword">ELSE</span> ACTION2 <span class="keyword">END</span></span><br><span class="line">URL<span class="operator">/</span>?id<span class="operator">=</span><span class="number">12</span><span class="operator">/</span>(<span class="keyword">case</span> <span class="keyword">when</span> (<span class="built_in">system_user</span><span class="operator">=</span><span class="string">&#x27;sa&#x27;</span>) <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span>)</span><br><span class="line">URL<span class="operator">/</span>?id<span class="operator">=</span><span class="number">12</span><span class="operator">%</span><span class="number">2</span>B(<span class="keyword">case</span> <span class="keyword">when</span> (<span class="built_in">system_user</span><span class="operator">=</span><span class="string">&#x27;sa&#x27;</span>) <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span>)</span><br><span class="line">注：<span class="operator">%</span><span class="number">2</span>B替换参数后面的&quot;/&quot;字符，<span class="operator">%</span><span class="number">2</span>B是&quot;+&quot;的URL编码，不能直接在URL中直接使用&quot;+&quot;，会被解析为空格。</span><br></pre></td></tr></table></figure></li>
+</ol>
 <h2><span id="14sql注入原理">1.4SQL注入原理</span></h2><p>WEB通过后SQL语句存储和调用数据库数据，攻击者通过拼接SQL语句，将其带入数据库中查询，导致数据库信息泄露。</p>
+<h3><span id="141字符串内联注入">1.4.1字符串内联注入</span></h3><table>
+<thead>
+<tr>
+<th align="center">测试字符串</th>
+<th align="center">变种</th>
+<th align="center">预期结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">‘</td>
+<td align="center"></td>
+<td align="center">触发错误。如果成功。数据库返回一个错误</td>
+</tr>
+<tr>
+<td align="center">1’ or ‘1’=’1</td>
+<td align="center">1’) or (‘1’=’1</td>
+<td align="center">永真条件。如果成功，将返回表中所有的行</td>
+</tr>
+<tr>
+<td align="center">value’ or ‘1’=’2</td>
+<td align="center">value’) or (‘1’=’2</td>
+<td align="center">空条件。如果成功，将返回与原来的值相同的结果</td>
+</tr>
+<tr>
+<td align="center">1’ and ‘1’=’2</td>
+<td align="center">1’) and (‘1’=’2</td>
+<td align="center">永假条件。如果成功，将返回表中任何行</td>
+</tr>
+<tr>
+<td align="center">1’ or ‘ab’=’a’+’b</td>
+<td align="center">1’) or (‘ab’=’a’+’b</td>
+<td align="center">SQL Server字符串连接。如果成功，将返回与永真条件相同的信息</td>
+</tr>
+<tr>
+<td align="center">1‘ or ‘ab’=’a’’b</td>
+<td align="center">1‘) or (‘ab’=’a’’b</td>
+<td align="center">MySQL字符串连接。如果成功，将返回与永真条件相同的信息</td>
+</tr>
+<tr>
+<td align="center">1’ or ‘ab’=’a’||’b</td>
+<td align="center">1’) or (‘ab’=’a’</td>
+<td align="center">Oracle字符串连接。如果成功，将返回与永真条件相同的信息</td>
+</tr>
+</tbody></table>
+<h3><span id="142数字值内联注入">1.4.2数字值内联注入</span></h3><table>
+<thead>
+<tr>
+<th align="center">测试字符串</th>
+<th align="center">变种</th>
+<th align="center">预期结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">，</td>
+<td align="center"></td>
+<td align="center">触发错误。如果成功。数据库返回一个错误</td>
+</tr>
+<tr>
+<td align="center">1+1</td>
+<td align="center">3-1</td>
+<td align="center">如果成功，将返回与操作结果相同的值</td>
+</tr>
+<tr>
+<td align="center">value+0</td>
+<td align="center"></td>
+<td align="center">如果成功，将返回与原来请求相同的值</td>
+</tr>
+<tr>
+<td align="center">1 or 1=1</td>
+<td align="center">1) or (1=1</td>
+<td align="center">永真条件。如果成功，将返回表中所有的行</td>
+</tr>
+<tr>
+<td align="center">value or 1=2</td>
+<td align="center">value) or (1=2</td>
+<td align="center">空条件。如果成功，将返回与原来的值相同的结果</td>
+</tr>
+<tr>
+<td align="center">1 and 1=2</td>
+<td align="center">1) and (1=2</td>
+<td align="center">永假条件。如果成功，将不返回表中任何行</td>
+</tr>
+<tr>
+<td align="center">1  or ‘ab’=’a’+’b’</td>
+<td align="center">1)  or (‘ab’=’a’+’b’</td>
+<td align="center">SQL Server字符串连接。如果成功，将返回与永真条件相同的信息</td>
+</tr>
+<tr>
+<td align="center">1 or ‘ab’=’a’’b’</td>
+<td align="center">1 or ‘ab’=’a’’b’</td>
+<td align="center">MySQL字符串连接。如果成功，将返回与永真条件相同的信息</td>
+</tr>
+<tr>
+<td align="center">1 or ‘ab’=’a’||’b’</td>
+<td align="center">1 or ‘ab’=’a’||’b’</td>
+<td align="center">Oracle字符串连接。如果成功，将返回与永真条件相同的信息</td>
+</tr>
+</tbody></table>
+<h3><span id="143终止式sql注入">1.4.3终止式SQL注入</span></h3><p>原理：使用注释终止SQL语句。</p>
+<table>
+<thead>
+<tr>
+<th>测试字符</th>
+<th>变种</th>
+<th>预期结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>admin’–</td>
+<td>admin’)–</td>
+<td>通过返回数据库中的admin行集来绕过身份验证机制</td>
+</tr>
+<tr>
+<td>admin’#</td>
+<td>admin’)#</td>
+<td>MySQL通过返回数据库中的admin行集来绕过身份验证机制</td>
+</tr>
+<tr>
+<td>1–</td>
+<td>1)–</td>
+<td>注释剩下的查询，希望能够清除可注入参数后面由WHERE子句指定的所有过滤器</td>
+</tr>
+<tr>
+<td>ZIJ</td>
+<td>1) or 1=1–</td>
+<td>注入一个数字参数，返回所有行</td>
+</tr>
+<tr>
+<td>‘or ‘1’=’1’–</td>
+<td>‘)or ‘1’=’1’–</td>
+<td>注入一个字符串参数，返回所有行</td>
+</tr>
+<tr>
+<td>-1 and 1=2–</td>
+<td>-1) and 1=2–</td>
+<td>注入一个数字参数，不返回所有行</td>
+</tr>
+<tr>
+<td>‘and ‘1’=’2’–</td>
+<td>‘)and ‘1’=’2’–v</td>
+<td>注入一个字符串参数，不返回所有行</td>
+</tr>
+<tr>
+<td>1/*注释*/</td>
+<td></td>
+<td>将注入注释掉。如果成功，将不会对原请求产生任何影响。这有助于识别SQL注入漏洞</td>
+</tr>
+</tbody></table>
+<h3><span id="144堆叠查询">1.4.4堆叠查询</span></h3><p>指的是在单个数据库连接中执行多个查询序列。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/" data-id="cleljzboc0001ncvlewn89d2s" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/" data-id="clf2vsrqt000114vl6lvk78vn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB/" rel="tag">WEB</a></li></ul>
@@ -177,6 +427,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2023/03/10/JAVA/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JAVA
+        
+      </div>
+    </a>
   
   
     <a href="/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" id="article-nav-older" class="article-nav-link-wrap">
@@ -219,7 +478,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
     </div>
   </div>
 
@@ -230,6 +489,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2023/03/10/JAVA/">JAVA</a>
+          </li>
         
           <li>
             <a href="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
