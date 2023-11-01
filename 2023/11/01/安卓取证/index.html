@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>安卓取证 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="目录   Android分区结构 system分区 userdata分区   取证分析 系统应用痕迹 第三方应用痕迹 微信     APK逆向分析 APP申请权限 应用名称 签名算法      [toc] Android分区结构system分区 &#x2F;system&#x2F;app&#x2F;：存放系统应用程序APK文件 &#x2F;system&#x2F;lib&#x2F;：存放应用程序用到的库文件 &#x2F;system&#x2F;bin&#x2F;和&#x2F;system&#x2F;xbi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓取证">
+<meta property="og:url" content="http://example.com/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="目录   Android分区结构 system分区 userdata分区   取证分析 系统应用痕迹 第三方应用痕迹 微信     APK逆向分析 APP申请权限 应用名称 签名算法      [toc] Android分区结构system分区 &#x2F;system&#x2F;app&#x2F;：存放系统应用程序APK文件 &#x2F;system&#x2F;lib&#x2F;：存放应用程序用到的库文件 &#x2F;system&#x2F;bin&#x2F;和&#x2F;system&#x2F;xbi">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101001436993.png">
+<meta property="og:image" content="http://example.com/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101001906987.png">
+<meta property="og:image" content="http://example.com/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101003315138.png">
+<meta property="og:image" content="http://example.com/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101003429132.png">
+<meta property="article:published_time" content="2023-11-01T00:14:01.000Z">
+<meta property="article:modified_time" content="2023-11-01T10:03:08.541Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101001436993.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-安卓取证" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/" class="article-date">
+  <time datetime="2023-11-01T00:14:01.000Z" itemprop="datePublished">2023-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      安卓取证
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1><span id="目录">目录</span></h1><!-- toc -->
+
+<ul>
+<li><a href="#android%E5%88%86%E5%8C%BA%E7%BB%93%E6%9E%84">Android分区结构</a><ul>
+<li><a href="#system%E5%88%86%E5%8C%BA">system分区</a></li>
+<li><a href="#userdata%E5%88%86%E5%8C%BA">userdata分区</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%96%E8%AF%81%E5%88%86%E6%9E%90">取证分析</a><ul>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8%E7%97%95%E8%BF%B9">系统应用痕迹</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%94%E7%94%A8%E7%97%95%E8%BF%B9">第三方应用痕迹</a><ul>
+<li><a href="#%E5%BE%AE%E4%BF%A1">微信</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#apk%E9%80%86%E5%90%91%E5%88%86%E6%9E%90">APK逆向分析</a><ul>
+<li><a href="#app%E7%94%B3%E8%AF%B7%E6%9D%83%E9%99%90">APP申请权限</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%90%8D%E7%A7%B0">应用名称</a></li>
+<li><a href="#%E7%AD%BE%E5%90%8D%E7%AE%97%E6%B3%95">签名算法</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<p>[toc]</p>
+<h1><span id="android分区结构">Android分区结构</span></h1><h2><span id="system分区">system分区</span></h2><ul>
+<li>/system/app/：存放系统应用程序APK文件</li>
+<li>/system/lib/：存放应用程序用到的库文件</li>
+<li>/system/bin/和/system/xbin/：存储Linux命令程序</li>
+<li>/system/framework/：存储Android系统运行时所需的一些框架</li>
+<li>/system/etc/：存储一些配置文件</li>
+<li>/system/media/：存储的是一些媒体文件，如手机铃声、壁纸等。</li>
+</ul>
+<h2><span id="userdata分区">userdata分区</span></h2><ol>
+<li>/userdata/data/</li>
+</ol>
+<p>存放应用程序数据，以QQ为例，在/userdata/data/com.tencent.mobileqq/目录下存储着QQ相关的数据，如聊天记录的数据库文件</p>
+<ol start="2">
+<li><p>/userdata/media/0/</p>
+<ul>
+<li><p>/Android：主要存储的是一些普通文件</p>
+</li>
+<li><p>/DICM：存储的是手机拍摄的照片、手机截图等文件</p>
+</li>
+<li><p>/Download：存储的是手机下载的文件</p>
+</li>
+<li><p>/Pictures：存储除了<code>/DICM</code>以外的图片文件</p>
+</li>
+<li><p>/Tencent：存储QQ、微信等腾讯应用数据，例如微信中的一些图片文件。</p>
+</li>
+</ul>
+</li>
+<li><p>/userdata/system/</p>
+<ul>
+<li>/preinstall.list：该文件记录系统安装的应用程序</li>
+<li>/packages.list：该文件记录应用程序的安装位置</li>
+<li>/locksettings.db，gatekeeper.pattern.key，gatekeeper.pattern.key，device_policies.xml：这些文件是与锁屏密码相关的文件</li>
+</ul>
+</li>
+<li><p>/userdata/misc/</p>
+<p>该目录中存储的是与VPN、WiFi、KeyStore等相关的配置文件。</p>
+<ul>
+<li>wpa_supplicant.conf：文件记录了设备曾经连接的WiFi的SSID以及密码等信息</li>
+<li>p2p_supplicant.conf：文件记录了设备的WiFi热点名称及其他信息</li>
+</ul>
+</li>
+</ol>
+<h1><span id="取证分析">取证分析</span></h1><h2><span id="系统应用痕迹">系统应用痕迹</span></h2><ol>
+<li>系统基本信息<ul>
+<li>/system/build.prop：设备的版本、产品名称、CPU等信息</li>
+<li>/userdata/system/netpolicy.xml：时区信息</li>
+<li>/userdata/system/device_policies.xml：锁屏密码的要求和策略</li>
+<li>/userdata/system/gesture.key：手势密码文件</li>
+<li>/userdata/system/password.key：密码文件</li>
+<li>/userdata/data/com.android.provider/calendar/databases/calendar.db：日历等信息</li>
+</ul>
+</li>
+<li>联系人和通话记录<ul>
+<li>/userdata/data/com.android.providers.contacts/databases/contacts2.db：联系人信息</li>
+<li>/userdata/data/com.android.providers.contacts/databases/calllog.db：通话记录</li>
+</ul>
+</li>
+<li>短信信息<ul>
+<li>/userdata/data/com.android.providers.telephony/databases/</li>
+</ul>
+</li>
+</ol>
+<p>mmssms.db</p>
+<ol start="4">
+<li>WiFi信息<ul>
+<li>/userdata/misc/wifi/wpa_supplcant.conf：包含WiFi密码</li>
+<li>/userdata/misc/wifi/softtap.conf：手机热点密码</li>
+<li>/userdata/misc/wifi/WifiConfigStore.xml：无线网络信息</li>
+</ul>
+</li>
+<li>App安装信息<ul>
+<li>/userdata/system/packages.xml：应用程序权限</li>
+<li>/userdata/system/packages.list：应用程序权限和元数据</li>
+</ul>
+</li>
+</ol>
+<h2><span id="第三方应用痕迹">第三方应用痕迹</span></h2><h3><span id="微信">微信</span></h3><table>
+<thead>
+<tr>
+<th>路径</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/userdata/data/com.tencent.mm/MicroMsg/&lt;hash&gt;/EnMicroMsg.db</td>
+<td>存储微信聊天记录的数据库</td>
+</tr>
+</tbody></table>
+<h1><span id="apk逆向分析">APK逆向分析</span></h1><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>assets目录</td>
+<td>存储需要打包到APK中的静态文件</td>
+</tr>
+<tr>
+<td>lib目录</td>
+<td>程序依赖的原生库文件</td>
+</tr>
+<tr>
+<td>res目录</td>
+<td>应用程序的资源</td>
+</tr>
+<tr>
+<td>META-INF目录</td>
+<td>应用程序签名和证书目录</td>
+</tr>
+<tr>
+<td>AndroidMainifest.xml</td>
+<td>应用程序配置文件</td>
+</tr>
+<tr>
+<td>classes.dex</td>
+<td>dex可执行文件</td>
+</tr>
+<tr>
+<td>resources.arsc</td>
+<td>资源配置文件</td>
+</tr>
+</tbody></table>
+<p>以2021美亚杯考题中恶意软件”安心出行“为例</p>
+<p><img src="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101001436993.png" alt="image-20231101001436993"></p>
+<h3><span id="app申请权限">APP申请权限</span></h3><table>
+<thead>
+<tr>
+<th>android.permission.INTERNET</th>
+<th>该权限允许程序打开网络套接字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>android.permission.ACCESS_NETWORK_STATE</td>
+<td>该权限允许程序访问有关GSM网络的信息</td>
+</tr>
+<tr>
+<td>android.permission.READ_CONTACTS</td>
+<td>该权限允许程序读取用户的联系人数据</td>
+</tr>
+<tr>
+<td>android.permission.READ_PHONE_STATE</td>
+<td>该权限允许程序访问电话状态</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>查看AndroidMainifest.xml文件</p>
+<p><img src="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101001906987.png" alt="image-20231101001906987"></p>
+<h3><span id="应用名称">应用名称</span></h3><table>
+<thead>
+<tr>
+<th>app_name</th>
+<th>应用名称</th>
+</tr>
+</thead>
+</table>
+<p><img src="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101003315138.png" alt="image-20231101003315138"></p>
+<h3><span id="签名算法">签名算法</span></h3><p><img src="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101003429132.png" alt="image-20231101003429132"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/" data-id="clofl765g0000z8vl3vkzg75q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数据库原理与安全</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB/" rel="tag">WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" rel="tag">网络通信与协议安全</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/WEB/" style="font-size: 10px;">WEB</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络通信与协议安全</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/">安卓取证</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/">数据库原理与安全</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/10/JAVA/">JAVA</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">Windows与网络基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

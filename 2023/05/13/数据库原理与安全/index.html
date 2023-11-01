@@ -7,17 +7,20 @@
   
   <title>数据库原理与安全 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录   1、SQL基础 1.1、数据类型 1.1.1、数值类型 1.1.2、字符串类型 1.1.3、日期时间类型   1.2、注释 1.3、SQL分类 1.3.1、DDL 1.3.2、DML 1.3.3、DQL   1.4、函数 字符串函数 数值函数 日期函数 流程函数   1.5 约束 1.5.1、概念 1.5.2外键约束   1.6、多表查询 1.6.1、多表关系 1.6.2、概述 1.6.">
+  <meta name="description" content="目录   1、SQL基础 1.1、数据类型 1.1.1、数值类型 1.1.2、字符串类型 1.1.3、日期时间类型   1.2、注释 1.3、SQL分类 1.3.1、DDL 1.3.2、DML 1.3.3、DQL 1.3.4、DCL   1.4、函数 字符串函数 数值函数 日期函数 流程函数   1.5 约束 1.5.1、概念 1.5.2外键约束   1.6、多表查询 1.6.1、多表关系 1.6">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库原理与安全">
 <meta property="og:url" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="目录   1、SQL基础 1.1、数据类型 1.1.1、数值类型 1.1.2、字符串类型 1.1.3、日期时间类型   1.2、注释 1.3、SQL分类 1.3.1、DDL 1.3.2、DML 1.3.3、DQL   1.4、函数 字符串函数 数值函数 日期函数 流程函数   1.5 约束 1.5.1、概念 1.5.2外键约束   1.6、多表查询 1.6.1、多表关系 1.6.2、概述 1.6.">
+<meta property="og:description" content="目录   1、SQL基础 1.1、数据类型 1.1.1、数值类型 1.1.2、字符串类型 1.1.3、日期时间类型   1.2、注释 1.3、SQL分类 1.3.1、DDL 1.3.2、DML 1.3.3、DQL 1.3.4、DCL   1.4、函数 字符串函数 数值函数 日期函数 流程函数   1.5 约束 1.5.1、概念 1.5.2外键约束   1.6、多表查询 1.6.1、多表关系 1.6">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203437499.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230513122832021.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230513122923470.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230513123003821.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230513123620875.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528155939447.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528160120983.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521210020487.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521210325208.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521211207456.png">
@@ -39,11 +42,27 @@
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522014407570.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522015033933.png">
 <meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522015219401.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522094421043.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522094938797.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522095327588.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522095728433.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522212128545.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522212521862.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527141052905.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527142443310.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527143018370.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528141516505.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528141911031.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203437499.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203617447.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528204235096.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528204843287.png">
+<meta property="og:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528205036496.png">
 <meta property="article:published_time" content="2023-05-13T04:26:32.000Z">
-<meta property="article:modified_time" content="2023-05-21T17:52:24.645Z">
+<meta property="article:modified_time" content="2023-05-28T12:50:37.612Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230513122832021.png">
+<meta name="twitter:image" content="http://example.com/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203437499.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -129,6 +148,7 @@
 <li><a href="#131-ddl">1.3.1、DDL</a></li>
 <li><a href="#132-dml">1.3.2、DML</a></li>
 <li><a href="#133-dql">1.3.3、DQL</a></li>
+<li><a href="#134-dcl">1.3.4、DCL</a></li>
 </ul>
 </li>
 <li><a href="#14-%E5%87%BD%E6%95%B0">1.4、函数</a><ul>
@@ -148,6 +168,25 @@
 <li><a href="#162-%E6%A6%82%E8%BF%B0">1.6.2、概述</a></li>
 <li><a href="#163-%E5%88%86%E7%B1%BB">1.6.3、分类</a></li>
 <li><a href="#164-%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2">1.6.4、联合查询</a></li>
+<li><a href="#165-%E5%AD%90%E6%9F%A5%E8%AF%A2">1.6.5、子查询</a></li>
+</ul>
+</li>
+<li><a href="#17-%E8%A7%86%E5%9B%BE">1.7、视图</a><ul>
+<li><a href="#171-%E5%88%9B%E5%BB%BA-%E6%9F%A5%E8%AF%A2-%E4%BF%AE%E6%94%B9-%E5%88%A0%E9%99%A4">1.7.1、创建-查询-修改-删除</a></li>
+<li><a href="#172">1.7.2、</a></li>
+<li><a href="#173">1.7.3、</a></li>
+</ul>
+</li>
+<li><a href="#18-%E4%BA%8B%E5%8A%A1">1.8、事务</a><ul>
+<li><a href="#181-%E4%BA%8B%E5%8A%A1%E6%93%8D%E4%BD%9C">1.8.1、事务操作</a></li>
+<li><a href="#182-%E4%BA%8B%E5%8A%A1%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7">1.8.2、事务四大特性</a></li>
+<li><a href="#183-%E5%B9%B6%E5%8F%91%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98">1.8.3、并发事务问题</a></li>
+<li><a href="#184-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB">1.8.4、事务隔离级别</a></li>
+</ul>
+</li>
+<li><a href="#19-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B">1.9、存储过程</a></li>
+<li><a href="#image-20230528203437499%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8image-20230528203437499png"><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203437499.png" alt="image-20230528203437499"></a><ul>
+<li><a href="#191-%E5%8F%98%E9%87%8F">1.9.1、变量</a></li>
 </ul>
 </li>
 </ul>
@@ -270,11 +309,11 @@
 </li>
 <li><p>删除索引</p>
 <blockquote>
-<p>DROP INDEX 索引名</p>
+<p>DROP INDEX 索引名 ON 表名</p>
 </blockquote>
 </li>
 </ul>
-<h3><span id="132-dml">1.3.2、DML</span></h3><ul>
+<h3><span id="132-dml">1.3.2、DML</span></h3><h4><span id="插入数据">插入数据</span></h4><ul>
 <li><p>给指定的字段添加数据</p>
 <blockquote>
 <p>INSERT INTO 表名(字段1,字段2,…)</p>
@@ -299,9 +338,11 @@
 <p>​                (值1,值2,…);</p>
 </blockquote>
 <p><strong>注意</strong>：字符串和日期类型数据应该包含在引号中。</p>
-<h3><span id="133-dql">1.3.3、DQL</span></h3></li>
+</li>
 </ul>
-<h4><span id="语法结构">语法结构</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521210020487.png" alt="image-20230521210020487"></p>
+<h4><span id="更新修改数据">更新/修改数据</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528155939447.png" alt="image-20230528155939447"></p>
+<h4><span id="删除">删除</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528160120983.png" alt="image-20230528160120983"></p>
+<h3><span id="133-dql">1.3.3、DQL</span></h3><h4><span id="语法结构">语法结构</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521210020487.png" alt="image-20230521210020487"></p>
 <h4><span id="条件查询">条件查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521210325208.png" alt="image-20230521210325208"></p>
 <h4><span id="分组查询">分组查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521211207456.png" alt="image-20230521211207456"></p>
 <h4><span id="分页查询">分页查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521211541799.png" alt="image-20230521211541799"></p>
@@ -312,6 +353,7 @@
 </blockquote>
 </li>
 </ul>
+<h3><span id="134-dcl">1.3.4、DCL</span></h3><p><strong>管理数据库用户，控制数据库的访问权限</strong></p>
 <h2><span id="14-函数">1.4、函数</span></h2><h3><span id="字符串函数">字符串函数</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521212328321.png" alt="image-20230521212328321"></p>
 <h3><span id="数值函数">数值函数</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521233803810.png" alt="image-20230521233803810"></p>
 <h3><span id="日期函数">日期函数</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230521234100420.png" alt="image-20230521234100420"></p>
@@ -328,9 +370,29 @@
 <h4><span id="1632-外连接">1.6.3.2、外连接</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522014112480.png" alt="image-20230522014112480"></p>
 <h4><span id="1633-自连接">1.6.3.3、自连接</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522014407570.png" alt="image-20230522014407570"></p>
 <h3><span id="164-联合查询">1.6.4、联合查询</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522015033933.png" alt="image-20230522015033933"></p>
-<pre><code>### 1.6.5、子查询
-</code></pre>
-<p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522015219401.png" alt="image-20230522015219401"></p>
+<h3><span id="165-子查询">1.6.5、子查询</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522015219401.png" alt="image-20230522015219401"></p>
+<h4><span id="1651-标量子查询">1.6.5.1、标量子查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522094421043.png" alt="image-20230522094421043"></p>
+<h4><span id="1652-列子查询">1.6.5.2、列子查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522094938797.png" alt="image-20230522094938797"></p>
+<h4><span id="1653-行子查询">1.6.5.3、行子查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522095327588.png" alt="image-20230522095327588"></p>
+<h4><span id="1654-表子查询">1.6.5.4、表子查询</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522095728433.png" alt="image-20230522095728433"></p>
+<h2><span id="17-视图">1.7、视图</span></h2><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522212128545.png" alt="image-20230522212128545"></p>
+<h3><span id="171-创建-查询-修改-删除">1.7.1、创建-查询-修改-删除</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230522212521862.png" alt="image-20230522212521862"></p>
+<h3><span id="172">1.7.2、</span></h3><h3><span id="173">1.7.3、</span></h3><h2><span id="18-事务">1.8、事务</span></h2><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527141052905.png" alt="image-20230527141052905"></p>
+<h3><span id="181-事务操作">1.8.1、事务操作</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527142443310.png" alt="image-20230527142443310"></p>
+<ul>
+<li>设置隐含事务方式的命令：</li>
+</ul>
+<blockquote>
+<p>SET IMPLICIT_TRANSACTIONS ON | OFF</p>
+</blockquote>
+<h3><span id="182-事务四大特性">1.8.2、事务四大特性</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230527143018370.png" alt="image-20230527143018370"></p>
+<h3><span id="183-并发事务问题">1.8.3、并发事务问题</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528141516505.png" alt="image-20230528141516505"></p>
+<h3><span id="184-事务隔离级别">1.8.4、事务隔离级别</span></h3><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528141911031.png" alt="image-20230528141911031"></p>
+<h2><span id="19-存储过程">1.9、存储过程</span></h2><p><strong>感觉类似函数或者方法</strong></p>
+<h2><span id><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203437499.png" alt="image-20230528203437499"></span></h2><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528203617447.png" alt="image-20230528203617447"></p>
+<h3><span id="191-变量">1.9.1、变量</span></h3><h4><span id="系统变量">系统变量</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528204235096.png" alt="image-20230528204235096"></p>
+<h4><span id="用户定义变量">用户定义变量</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528204843287.png" alt="image-20230528204843287"></p>
+<h4><span id="局部变量">局部变量</span></h4><p><img src="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/image-20230528205036496.png" alt="image-20230528205036496"></p>
 
       
     </div>
@@ -343,6 +405,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          安卓取证
+        
+      </div>
+    </a>
   
   
     <a href="/2023/03/10/JAVA/" id="article-nav-older" class="article-nav-link-wrap">
@@ -385,7 +456,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
     </div>
   </div>
 
@@ -396,6 +467,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/">安卓取证</a>
+          </li>
         
           <li>
             <a href="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/">数据库原理与安全</a>
@@ -411,10 +486,6 @@
         
           <li>
             <a href="/2023/02/21/Windows%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">Windows与网络基础</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/13/Hexo/">Hexo</a>
           </li>
         
       </ul>
