@@ -64,6 +64,115 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-安全协议分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/" class="article-date">
+  <time datetime="2023-11-18T10:57:22.000Z" itemprop="datePublished">2023-11-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/">安全协议分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1><span id="目录">目录</span></h1><!-- toc -->
+
+<ul>
+<li><a href="#pki">PKI</a><ul>
+<li><a href="#pki%E4%BD%93%E7%B3%BB">PKI体系</a></li>
+<li><a href="#%E6%95%B0%E5%AD%97%E4%BF%A1%E5%B0%81">数字信封</a></li>
+</ul>
+</li>
+<li><a href="#vpn">VPN</a></li>
+<li><a href="#ipsec">IPSec</a><ul>
+<li><a href="#ipsec%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E7%BB%84%E5%90%88sa%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">IPSec中的安全组合（SA）的基本概念。</a><ul>
+<li><a href="#%E5%AE%89%E5%85%A8%E5%8F%82%E6%95%B0%E7%B4%A2%E5%BC%95spi">安全参数索引（SPI)</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%A4%E8%AF%81%E5%A4%B4%E6%A0%87ahauthentication-head%E7%9A%84%E5%8E%9F%E7%90%86%E7%A8%8D%E5%BE%AE%E4%BA%86%E8%A7%A3%E4%B8%8B">认证头标AH(Authentication Head)的原理稍微了解下</a></li>
+<li><a href="#%E5%B0%81%E8%A3%85%E5%AE%89%E5%85%A8%E8%BD%BD%E8%8D%B7%E5%A4%B4%E6%A0%87espencapsulating-security-payload-%E7%9A%84%E5%8E%9F%E7%90%86%E7%A8%8D%E5%BE%AE%E4%BA%86%E8%A7%A3%E4%B8%8B">封装安全载荷头标ESP(Encapsulating Security Payload) 的原理稍微了解下</a></li>
+<li><a href="#ipsec%E7%9A%84%E4%BC%A0%E8%BE%93%E6%A8%A1%E5%BC%8F%E4%B8%8E%E9%9A%A7%E9%81%93%E6%A8%A1%E5%BC%8F">IPSec的传输模式与隧道模式。</a></li>
+</ul>
+</li>
+<li><a href="#ike">IKE</a></li>
+<li><a href="#isakmp">ISAKMP</a></li>
+<li><a href="#ssltls">SSL/TLS</a></li>
+</ul>
+<!-- tocstop -->
+
+<p>[toc]</p>
+<h1><span id="pki">PKI</span></h1><p>公钥基础设施（Public Key Infrastructure）：是基于非对称密码体制（公钥密码体制）的，用来生成、管理、存储、分发和撤销数字证书的一套硬件、软件、人员、策略和过程。</p>
+<h2><span id="pki体系">PKI体系</span></h2><ul>
+<li>认证中心CA（Certificate Authority）：证书的签发机构</li>
+<li>注册机构RA（Registration Authority）：CA的延展，承担会多从CA处继承的管理功能</li>
+<li>证书库（Certification Library）</li>
+</ul>
+<h2><span id="数字信封">数字信封</span></h2><p>信息发送端使用接收端的公钥，将一个通信密钥（对称密钥）进行加密，生成一个数字信封。</p>
+<p>信息接收端使用自己的私钥打开数字信封，获取通信密钥，用它来解密被加密的信息。</p>
+<p><img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200915584.png" alt="image-20231118200915584" style="zoom:80%;"><img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200921148.png" alt="image-20231118200921148" style="zoom:80%;"></p>
+<h1><span id="vpn">VPN</span></h1><p>VPN (Virtual Private Network)（虚拟专用网络）：是使用隧道技术，在公共网络创建出虚拟的、点到点安全连接的专用网络的技术。</p>
+<h1><span id="ipsec">IPSec</span></h1><p>IPSec（IP Security）是Internet的网络层安全协议，用于在IP网络上提供数据的加密、认证和完整性保护。</p>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118210352118.png" alt="image-20231118210352118" style="zoom: 50%;">
+
+<h2><span id="ipsec中的安全组合sa的基本概念">IPSec中的安全组合（SA）的基本概念。</span></h2><p>SA（Security Association）（安全组合或安全关联）：为使通信双方的认证/加密算法及其参数、密钥的一致，相互间建立的联系。</p>
+<p>数据传输是双向的，不同方向可能存在不同的策略，因此SA是单向的，在双向通信时要建立两个SA。</p>
+<p>三元组（源IP地址、目标IP地址、安全参数索引（SPI：用于区分不同SA））唯一地标识一个SA</p>
+<h3><span id="安全参数索引spi">安全参数索引（SPI)</span></h3><h2><span id="认证头标ahauthentication-head的原理稍微了解下">认证头标AH(Authentication Head)的原理稍微了解下</span></h2><ol>
+<li>AH协议提供无连接的完整性、数据源认证和抗重放保护服务,不提供保密性服务</li>
+<li>AH使用消息认证码（MAC）对IP进行认证</li>
+</ol>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119100542953.png" alt="image-20231119100542953" style="zoom:50%;">
+
+<ul>
+<li>安全参数索引（Security Parameters Index）：此32比特和目的IP地址、IPSec协议（AH或ESP）组合即可==确定SA==，以确定采用的IPSec协议、操作模式、密码算法、密钥等。当建立新SA时，SPI的产生由目的系统选择。</li>
+<li>序列号（Sequence Number Field）：单调增加的32位无符号整数，利用该域==抵抗重发攻击（Replay Attack）==。每个IPSec分组依次将序列号加1.</li>
+<li>认证数据（Authentication Data Variable）：是一个长度可变的域，长度为32比特的整数倍。具体格式因认证算法而异 。该认证数据也被称为==数据报的完整性校验值==（Integrity Check Value,== ICV==）</li>
+</ul>
+<h2><span id="封装安全载荷头标espencapsulating-security-payload-的原理稍微了解下">封装安全载荷头标ESP(Encapsulating Security Payload) 的原理稍微了解下</span></h2><ol>
+<li>ESP提供数据保密、无连接完整性、抗重播服务</li>
+<li>ESP大都采用对称密码体制加密数据</li>
+<li>ESP使用消息认证码（MAC）提供认证服务</li>
+</ol>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119101224393.png" alt="image-20231119101224393" style="zoom:50%;">
+
+<p>填充的目的：</p>
+<ol>
+<li>加密算法要求明文为某个数目字节的整数倍；</li>
+<li>32位对齐；</li>
+<li>隐藏实际载荷长度，提供流量保密性</li>
+</ol>
+<h2><span id="ipsec的传输模式与隧道模式">IPSec的传输模式与隧道模式。</span></h2><ul>
+<li>传输模式：在传输模式中，AH和ESP头标被插在IP头标及其他选项（或扩展头标）之后，但在传输层协议之前。它保护净荷的完整性和机密性。<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119095429607.png" alt="image-20231119095429607" style="zoom: 50%;"></li>
+<li>在隧道模式下，AH或ESP头标插在IP头标之前，另外生成一个新的IP头放在前面，隧道的起点和终点的网关地址就是新IP头的源/目的IP地址。保护整个IP分组<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119095604242.png" alt="image-20231119095604242" style="zoom:50%;"></li>
+</ul>
+<h1><span id="ike">IKE</span></h1><p>IKE（Internet Key Exchange）：因特网密钥交换协议，是在IPSec（Internet Protocol Security）中用于建立安全通信的协议。它是一种自动化的密钥管理协议，用于协商和交换用于加密和认证的密钥。</p>
+<h1><span id="isakmp">ISAKMP</span></h1><p>ISAKMP（Internet Security Association and Key Management Protocol）：因特网安全组合和密钥管理协议，是用于建立和管理安全关联（Security Association，SA）和密钥的协议。它是在IPSec（Internet Protocol Security）中使用的主要协议之一，用于进行密钥交换和安全参数协商。</p>
+<p>ISAKMP通常与IKE（Internet Key Exchange）一起使用，共同实现IPSec中的安全通信。IKE是基于ISAKMP的一种实现，它在ISAKMP的基础上进一步扩展和定义了建立和管理安全关联的过程。</p>
+<h1><span id="ssltls">SSL/TLS</span></h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/" data-id="clp4veo5m000018vl3lo9gotp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2022美亚杯" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/" class="article-date">
@@ -94,6 +203,13 @@
 <li><a href="#%E5%A4%9A%E9%80%89%E9%A2%98-%E7%8E%8B%E6%99%93%E7%90%B3%E7%9A%84%E6%89%8B%E6%9C%BA%E5%AE%89%E8%A3%85%E4%BA%86%E4%BB%80%E4%B9%88%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF%E8%BD%AF%E4%BB%B6lnstant-messaging-apps1%E5%88%86">[多选题] 王晓琳的手机安装了什么即时通讯软件(lnstant Messaging Apps)?(1分)</a></li>
 <li><a href="#%E5%8D%95%E9%80%89%E9%A2%98-%E7%8E%8B%E6%99%93%E7%90%B3%E4%BA%8E%E4%BB%80%E4%B9%88%E6%97%A5%E5%AD%90%E5%92%8C%E6%97%B6%E9%97%B4%E6%9B%BE%E7%BB%8F%E9%80%9A%E8%BF%87%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF%E8%BD%AF%E4%BB%B6%E5%8F%91%E5%87%BA%E4%B8%80%E4%B8%AA-pdf%E6%A1%A3%E6%A1%88%E4%BB%A5%E6%97%B6%E5%8C%BAutc8%E5%9B%9E%E7%AD%941%E5%88%86">[单选题] 王晓琳于什么日子和时间曾经通过即时通讯软件发出一个 PDF档案?(以时区UTC+8回答)(1分)</a></li>
 <li><a href="#%E5%A1%AB%E7%A9%BA%E9%A2%98-%E6%89%BF%E4%B8%8A%E9%A2%98%E8%BF%99%E4%B8%AA-pdf-%E6%A1%A3%E6%A1%88%E7%9A%84md5%E5%93%88%E5%B8%8C%E5%80%BChash-value-%E6%98%AF%E4%BB%80%E4%B9%88%E4%BB%A5%E5%A4%A7%E5%86%99%E8%8B%B1%E6%96%87%E5%8F%8A%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97%E5%9B%9E%E7%AD%941%E5%88%86">[填空题] 承上题，这个 PDF 档案的MD5哈希值Hash Value) 是什么?(以大写英文及阿拉伯数字回答)(1分)</a></li>
+<li><a href="#%E5%8D%95%E9%80%89%E9%A2%98-%E7%8E%8B%E6%99%93%E7%90%B3%E5%B0%86%E8%BF%99%E4%B8%AApdf-%E6%A1%A3%E6%A1%88%E5%8F%91%E7%BB%99%E5%93%AA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E8%80%8C%E8%AF%A5%E7%94%A8%E6%88%B7%E7%9A%84%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%98%AF%E4%BB%80%E4%B9%881%E5%88%86">[单选题] 王晓琳将这个“PDF 档案发给哪一个用户,而该用户的手机号码是什么?(1分)</a></li>
+<li><a href="#%E5%A4%9A%E9%80%89%E9%A2%98-%E7%8E%8B%E6%99%93%E7%90%B3%E5%8F%91%E5%87%BA%E8%BF%99%E4%B8%AApdf-%E6%A1%A3%E6%A1%88%E7%9A%84%E5%8E%9F%E5%9B%A0%E6%98%AF%E4%BB%80%E4%B9%881%E5%88%86">[多选题] 王晓琳发出这个，PDF 档案的原因是什么?(1分)</a></li>
+<li><a href="#%E5%8D%95%E9%80%89%E9%A2%98-%E6%89%BF%E4%B8%8A%E9%A2%98%E5%88%86%E6%9E%90%E7%8E%8B%E6%99%93%E7%90%B3%E4%B8%8E%E4%B8%8A%E8%BF%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%AF%B9%E8%AF%9D%E4%BB%96%E4%BB%AC%E7%9A%84%E5%85%B3%E7%B3%BB%E6%98%AF%E4%BB%80%E4%B9%881%E5%88%86">[单选题] 承上题，分析王晓琳与上述用户的对话，他们的关系是什么?(1分)</a></li>
+<li><a href="#%E5%8D%95%E9%80%89%E9%A2%98-%E7%8E%8B%E6%99%93%E7%90%B3%E4%BA%8E%E4%BD%95%E6%97%B6%E8%A6%81%E6%B1%82%E4%B8%8A%E8%BF%B0%E7%94%A8%E6%88%B7%E5%88%A0%E9%99%A4-%E5%BC%A0%E7%85%A7%E7%89%871%E5%88%86">[单选题] 王晓琳于何时要求上述用户删除 张照片?(1分)</a></li>
+<li><a href="#%E5%8D%95%E9%80%89%E9%A2%98-%E6%89%BF%E4%B8%8A%E9%A2%98%E8%AF%A5%E7%94%A8%E6%88%B7%E5%90%91%E7%8E%8B%E6%99%93%E7%90%B3%E6%8F%90%E5%87%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%B1%82%E4%BB%A5%E5%88%A0%E9%99%A4%E8%BF%99%E5%BC%A0%E7%85%A7%E7%89%871%E5%88%86">[单选题] 承上题，该用户向王晓琳提出什么要求以删除这张照片?(1分)</a></li>
+<li><a href="#%E5%8D%95%E9%80%89%E9%A2%98-%E7%8E%8B%E6%99%93%E7%90%B3%E7%9A%84%E6%89%8B%E6%9C%BA%E9%87%8C%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%B5%E4%BA%86%E4%B9%A6%E7%B1%8Delectronic-book-2%E5%88%86">[单选题] 王晓琳的手机里有什么电了书籍(Electronic Book) ?(2分)</a></li>
+<li><a href="#%E5%8D%95%E9%80%89%E9%A2%98-%E7%8E%8B%E6%99%93%E7%90%B3%E5%9C%A8%E8%BF%99%E6%9C%AC%E7%94%B5%E5%AD%90%E4%B9%A6%E7%B1%8D%E9%87%8C%E6%9C%80%E5%90%8E%E5%AF%B9%E5%93%AA%E6%AE%B5%E6%96%87%E5%AD%97%E5%8A%A0%E5%85%A5%E4%BA%86%E9%87%8D%E7%82%B9%E6%A0%87%E7%A4%BA%E6%95%88%E6%9E%9Chighlight2%E5%88%86">[单选题] 王晓琳在这本电子书籍里最后对哪段文字加入了重点标示效果(Highlight)?(2分)</a></li>
 </ul>
 </li>
 </ul>
@@ -102,7 +218,8 @@
 <p>[toc]</p>
 <h1><span id="资格赛">资格赛</span></h1><p>题目顺序根据美亚杯官网给出的题目-解析顺序</p>
 <h2><span id="王晓琳手机的-imei-号是什么以阿拉伯数字回答">王晓琳手机的， IMEI ，号是什么？（以阿拉伯数字回答）</span></h2><p>在手机备份文件==Info.plist==中可知</p>
-<p><img src="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/image-20231102224742900.png" alt="image-20231102224742900"></p>
+<img src="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/image-20231102224742900.png" alt="image-20231102224742900" style="zoom: 33%;">
+
 <h2><span id="多选题-王晓琳的手机安装了什么即时通讯软件lnstant-messaging-apps1分">[多选题] 王晓琳的手机安装了什么即时通讯软件(lnstant Messaging Apps)?(1分)</span></h2><p>==A. Signal==</p>
 <p>==B. 微信(WeChat)==</p>
 <p>C. QQ</p>
@@ -117,7 +234,42 @@
 <p>D.2022-10-01 16:30:22</p>
 <p>在WhatsApp聊天记录中找到</p>
 <p><img src="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/image-20231102230440081.png" alt="image-20231102230440081"></p>
-<h2><span id="填空题-承上题这个-pdf-档案的md5哈希值hash-value-是什么以大写英文及阿拉伯数字回答1分">[填空题] 承上题，这个 PDF 档案的MD5哈希值Hash Value) 是什么?(以大写英文及阿拉伯数字回答)(1分)</span></h2>
+<h2><span id="填空题-承上题这个-pdf-档案的md5哈希值hash-value-是什么以大写英文及阿拉伯数字回答1分">[填空题] 承上题，这个 PDF 档案的MD5哈希值Hash Value) 是什么?(以大写英文及阿拉伯数字回答)(1分)</span></h2><p> ==MD5: AE0D6735BBE45B0B8F1AB7838623D9C8==手机大师导出附件</p>
+<p><img src="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/image-20231102231449772.png" alt="image-20231102231449772"></p>
+<h2><span id="单选题-王晓琳将这个pdf-档案发给哪一个用户而该用户的手机号码是什么1分">[单选题] 王晓琳将这个“PDF 档案发给哪一个用户,而该用户的手机号码是什么?(1分)</span></h2><p>A.85297663607</p>
+<p>==B.85259308538==</p>
+<p>C.85269707307</p>
+<p>D.85246427813</p>
+<img src="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/image-20231102231629071.png" alt="image-20231102231629071" style="zoom: 50%;">
+
+<h2><span id="多选题-王晓琳发出这个pdf-档案的原因是什么1分">[多选题] 王晓琳发出这个，PDF 档案的原因是什么?(1分)</span></h2><p>==A. 寻求协助==</p>
+<p>B. 分享档案内容</p>
+<p>C. 错误发出</p>
+<p>==D. 无法开启==</p>
+<p>根据上题截图可知</p>
+<h2><span id="单选题-承上题分析王晓琳与上述用户的对话他们的关系是什么1分">[单选题] 承上题，分析王晓琳与上述用户的对话，他们的关系是什么?(1分)</span></h2><p>A. 客户</p>
+<p>B. 师生</p>
+<p>C. 家人</p>
+<p>==D. 同事==</p>
+<h2><span id="单选题-王晓琳于何时要求上述用户删除-张照片1分">[单选题] 王晓琳于何时要求上述用户删除 张照片?(1分)</span></h2><p>A. 2022-10-06</p>
+<p>B. 2022-09-28</p>
+<p>C. 2022-09-30</p>
+<p>==D. 2022-10-03==</p>
+<img src="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/image-20231102232000574.png" alt="image-20231102232000574" style="zoom:50%;">
+
+<h2><span id="单选题-承上题该用户向王晓琳提出什么要求以删除这张照片1分">[单选题] 承上题，该用户向王晓琳提出什么要求以删除这张照片?(1分)</span></h2><p>==A. 金钱==</p>
+<p>B. 毒品</p>
+<p>C. 性服务</p>
+<p>D. 加密货币<br> <img src="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/image-20231102232119495.png" alt="image-20231102232119495" style="zoom:50%;"></p>
+<h2><span id="单选题-王晓琳的手机里有什么电了书籍electronic-book-2分">[单选题] 王晓琳的手机里有什么电了书籍(Electronic Book) ?(2分)</span></h2><p>==A. 三国演义==</p>
+<p>B. 红楼梦</p>
+<p>C. 水浒传</p>
+<p>D. 西游记</p>
+<h2><span id="单选题-王晓琳在这本电子书籍里最后对哪段文字加入了重点标示效果highlight2分">[单选题] 王晓琳在这本电子书籍里最后对哪段文字加入了重点标示效果(Highlight)?(2分)</span></h2><p>==A. 卿有何妙计==</p>
+<p>B. 宝玉已是三杯过去了</p>
+<p>C. 武松那日早饭罢</p>
+<p>D. 就除他做个强马温罢</p>
+
       
     </div>
     <footer class="article-footer">
@@ -1957,6 +2109,10 @@
       <ul>
         
           <li>
+            <a href="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/">安全协议分析</a>
+          </li>
+        
+          <li>
             <a href="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/">2022美亚杯</a>
           </li>
         
@@ -1970,10 +2126,6 @@
         
           <li>
             <a href="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/">数据库原理与安全</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/10/JAVA/">JAVA</a>
           </li>
         
       </ul>

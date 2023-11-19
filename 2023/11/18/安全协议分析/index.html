@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>安全协议分析 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="目录   PKI PKI体系 数字信封   VPN IPSec IPSec中的安全组合（SA）的基本概念。 安全参数索引（SPI)   认证头标AH(Authentication Head)的原理稍微了解下 封装安全载荷头标ESP(Encapsulating Security Payload) 的原理稍微了解下 IPSec的传输模式与隧道模式。   IKE ISAKMP SSL&#x2F;TLS    [t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安全协议分析">
+<meta property="og:url" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="目录   PKI PKI体系 数字信封   VPN IPSec IPSec中的安全组合（SA）的基本概念。 安全参数索引（SPI)   认证头标AH(Authentication Head)的原理稍微了解下 封装安全载荷头标ESP(Encapsulating Security Payload) 的原理稍微了解下 IPSec的传输模式与隧道模式。   IKE ISAKMP SSL&#x2F;TLS    [t">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200915584.png">
+<meta property="og:image" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200921148.png">
+<meta property="og:image" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118210352118.png">
+<meta property="og:image" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119100542953.png">
+<meta property="og:image" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119101224393.png">
+<meta property="og:image" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119095429607.png">
+<meta property="og:image" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119095604242.png">
+<meta property="article:published_time" content="2023-11-18T10:57:22.000Z">
+<meta property="article:modified_time" content="2023-11-19T02:39:35.993Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200915584.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-安全协议分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/" class="article-date">
+  <time datetime="2023-11-18T10:57:22.000Z" itemprop="datePublished">2023-11-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      安全协议分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1><span id="目录">目录</span></h1><!-- toc -->
+
+<ul>
+<li><a href="#pki">PKI</a><ul>
+<li><a href="#pki%E4%BD%93%E7%B3%BB">PKI体系</a></li>
+<li><a href="#%E6%95%B0%E5%AD%97%E4%BF%A1%E5%B0%81">数字信封</a></li>
+</ul>
+</li>
+<li><a href="#vpn">VPN</a></li>
+<li><a href="#ipsec">IPSec</a><ul>
+<li><a href="#ipsec%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E7%BB%84%E5%90%88sa%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">IPSec中的安全组合（SA）的基本概念。</a><ul>
+<li><a href="#%E5%AE%89%E5%85%A8%E5%8F%82%E6%95%B0%E7%B4%A2%E5%BC%95spi">安全参数索引（SPI)</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%A4%E8%AF%81%E5%A4%B4%E6%A0%87ahauthentication-head%E7%9A%84%E5%8E%9F%E7%90%86%E7%A8%8D%E5%BE%AE%E4%BA%86%E8%A7%A3%E4%B8%8B">认证头标AH(Authentication Head)的原理稍微了解下</a></li>
+<li><a href="#%E5%B0%81%E8%A3%85%E5%AE%89%E5%85%A8%E8%BD%BD%E8%8D%B7%E5%A4%B4%E6%A0%87espencapsulating-security-payload-%E7%9A%84%E5%8E%9F%E7%90%86%E7%A8%8D%E5%BE%AE%E4%BA%86%E8%A7%A3%E4%B8%8B">封装安全载荷头标ESP(Encapsulating Security Payload) 的原理稍微了解下</a></li>
+<li><a href="#ipsec%E7%9A%84%E4%BC%A0%E8%BE%93%E6%A8%A1%E5%BC%8F%E4%B8%8E%E9%9A%A7%E9%81%93%E6%A8%A1%E5%BC%8F">IPSec的传输模式与隧道模式。</a></li>
+</ul>
+</li>
+<li><a href="#ike">IKE</a></li>
+<li><a href="#isakmp">ISAKMP</a></li>
+<li><a href="#ssltls">SSL/TLS</a></li>
+</ul>
+<!-- tocstop -->
+
+<p>[toc]</p>
+<h1><span id="pki">PKI</span></h1><p>公钥基础设施（Public Key Infrastructure）：是基于非对称密码体制（公钥密码体制）的，用来生成、管理、存储、分发和撤销数字证书的一套硬件、软件、人员、策略和过程。</p>
+<h2><span id="pki体系">PKI体系</span></h2><ul>
+<li>认证中心CA（Certificate Authority）：证书的签发机构</li>
+<li>注册机构RA（Registration Authority）：CA的延展，承担会多从CA处继承的管理功能</li>
+<li>证书库（Certification Library）</li>
+</ul>
+<h2><span id="数字信封">数字信封</span></h2><p>信息发送端使用接收端的公钥，将一个通信密钥（对称密钥）进行加密，生成一个数字信封。</p>
+<p>信息接收端使用自己的私钥打开数字信封，获取通信密钥，用它来解密被加密的信息。</p>
+<p><img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200915584.png" alt="image-20231118200915584" style="zoom:80%;"><img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200921148.png" alt="image-20231118200921148" style="zoom:80%;"></p>
+<h1><span id="vpn">VPN</span></h1><p>VPN (Virtual Private Network)（虚拟专用网络）：是使用隧道技术，在公共网络创建出虚拟的、点到点安全连接的专用网络的技术。</p>
+<h1><span id="ipsec">IPSec</span></h1><p>IPSec（IP Security）是Internet的网络层安全协议，用于在IP网络上提供数据的加密、认证和完整性保护。</p>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118210352118.png" alt="image-20231118210352118" style="zoom: 50%;">
+
+<h2><span id="ipsec中的安全组合sa的基本概念">IPSec中的安全组合（SA）的基本概念。</span></h2><p>SA（Security Association）（安全组合或安全关联）：为使通信双方的认证/加密算法及其参数、密钥的一致，相互间建立的联系。</p>
+<p>数据传输是双向的，不同方向可能存在不同的策略，因此SA是单向的，在双向通信时要建立两个SA。</p>
+<p>三元组（源IP地址、目标IP地址、安全参数索引（SPI：用于区分不同SA））唯一地标识一个SA</p>
+<h3><span id="安全参数索引spi">安全参数索引（SPI)</span></h3><h2><span id="认证头标ahauthentication-head的原理稍微了解下">认证头标AH(Authentication Head)的原理稍微了解下</span></h2><ol>
+<li>AH协议提供无连接的完整性、数据源认证和抗重放保护服务,不提供保密性服务</li>
+<li>AH使用消息认证码（MAC）对IP进行认证</li>
+</ol>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119100542953.png" alt="image-20231119100542953" style="zoom:50%;">
+
+<ul>
+<li>安全参数索引（Security Parameters Index）：此32比特和目的IP地址、IPSec协议（AH或ESP）组合即可==确定SA==，以确定采用的IPSec协议、操作模式、密码算法、密钥等。当建立新SA时，SPI的产生由目的系统选择。</li>
+<li>序列号（Sequence Number Field）：单调增加的32位无符号整数，利用该域==抵抗重发攻击（Replay Attack）==。每个IPSec分组依次将序列号加1.</li>
+<li>认证数据（Authentication Data Variable）：是一个长度可变的域，长度为32比特的整数倍。具体格式因认证算法而异 。该认证数据也被称为==数据报的完整性校验值==（Integrity Check Value,== ICV==）</li>
+</ul>
+<h2><span id="封装安全载荷头标espencapsulating-security-payload-的原理稍微了解下">封装安全载荷头标ESP(Encapsulating Security Payload) 的原理稍微了解下</span></h2><ol>
+<li>ESP提供数据保密、无连接完整性、抗重播服务</li>
+<li>ESP大都采用对称密码体制加密数据</li>
+<li>ESP使用消息认证码（MAC）提供认证服务</li>
+</ol>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119101224393.png" alt="image-20231119101224393" style="zoom:50%;">
+
+<p>填充的目的：</p>
+<ol>
+<li>加密算法要求明文为某个数目字节的整数倍；</li>
+<li>32位对齐；</li>
+<li>隐藏实际载荷长度，提供流量保密性</li>
+</ol>
+<h2><span id="ipsec的传输模式与隧道模式">IPSec的传输模式与隧道模式。</span></h2><ul>
+<li>传输模式：在传输模式中，AH和ESP头标被插在IP头标及其他选项（或扩展头标）之后，但在传输层协议之前。它保护净荷的完整性和机密性。<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119095429607.png" alt="image-20231119095429607" style="zoom: 50%;"></li>
+<li>在隧道模式下，AH或ESP头标插在IP头标之前，另外生成一个新的IP头放在前面，隧道的起点和终点的网关地址就是新IP头的源/目的IP地址。保护整个IP分组<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119095604242.png" alt="image-20231119095604242" style="zoom:50%;"></li>
+</ul>
+<h1><span id="ike">IKE</span></h1><p>IKE（Internet Key Exchange）：因特网密钥交换协议，是在IPSec（Internet Protocol Security）中用于建立安全通信的协议。它是一种自动化的密钥管理协议，用于协商和交换用于加密和认证的密钥。</p>
+<h1><span id="isakmp">ISAKMP</span></h1><p>ISAKMP（Internet Security Association and Key Management Protocol）：因特网安全组合和密钥管理协议，是用于建立和管理安全关联（Security Association，SA）和密钥的协议。它是在IPSec（Internet Protocol Security）中使用的主要协议之一，用于进行密钥交换和安全参数协商。</p>
+<p>ISAKMP通常与IKE（Internet Key Exchange）一起使用，共同实现IPSec中的安全通信。IKE是基于ISAKMP的一种实现，它在ISAKMP的基础上进一步扩展和定义了建立和管理安全关联的过程。</p>
+<h1><span id="ssltls">SSL/TLS</span></h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/" data-id="clp4veo5m000018vl3lo9gotp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2022美亚杯</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB/" rel="tag">WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" rel="tag">网络通信与协议安全</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/WEB/" style="font-size: 10px;">WEB</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络通信与协议安全</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/">安全协议分析</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/02/2022%E7%BE%8E%E4%BA%9A%E6%9D%AF/">2022美亚杯</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/01/%E8%8B%B9%E6%9E%9C%E6%89%8B%E6%9C%BA%E5%8F%96%E8%AF%81/">苹果手机取证</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/01/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/">安卓取证</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%89%E5%85%A8/">数据库原理与安全</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
