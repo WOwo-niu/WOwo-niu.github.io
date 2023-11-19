@@ -94,7 +94,6 @@
 <li><a href="#%E6%95%B0%E5%AD%97%E4%BF%A1%E5%B0%81">数字信封</a></li>
 </ul>
 </li>
-<li><a href="#vpn">VPN</a></li>
 <li><a href="#ipsec">IPSec</a><ul>
 <li><a href="#ipsec%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E7%BB%84%E5%90%88sa%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">IPSec中的安全组合（SA）的基本概念。</a><ul>
 <li><a href="#%E5%AE%89%E5%85%A8%E5%8F%82%E6%95%B0%E7%B4%A2%E5%BC%95spi">安全参数索引（SPI)</a></li>
@@ -107,21 +106,66 @@
 </li>
 <li><a href="#ike">IKE</a></li>
 <li><a href="#isakmp">ISAKMP</a></li>
-<li><a href="#ssltls">SSL/TLS</a></li>
+<li><a href="#ssltls">SSL/TLS</a><ul>
+<li><a href="#ssl">SSL</a></li>
+</ul>
+</li>
+<li><a href="#%E9%98%B2%E7%81%AB%E5%A2%99">防火墙</a><ul>
+<li><a href="#%E5%8C%85%E8%BF%87%E6%BB%A4%E5%9E%8B%E9%98%B2%E7%81%AB%E5%A2%99-packet-filtering-firewall%E7%9A%84%E6%A6%82%E5%BF%B5">包过滤型防火墙 (packet Filtering Firewall)的概念</a></li>
+<li><a href="#%E7%8A%B6%E6%80%81%E6%A3%80%E6%B5%8B%E9%98%B2%E7%81%AB%E5%A2%99stateful-inspection-firewall%E7%9A%84%E6%A6%82%E5%BF%B5">状态检测防火墙(Stateful Inspection Firewall)的概念</a></li>
+<li><a href="#ids">IDS</a></li>
+</ul>
+</li>
+<li><a href="#nat">NAT</a><ul>
+<li><a href="#%E5%88%86%E7%B1%BB">分类</a></li>
+</ul>
+</li>
+<li><a href="#vpn">VPN</a><ul>
+<li><a href="#%E9%9A%A7%E9%81%93%E6%8A%80%E6%9C%AF">隧道技术</a><ul>
+<li><a href="#%E7%AC%AC2%E5%B1%82%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE">第2层隧道协议</a></li>
+<li><a href="#%E7%AC%AC3%E5%B1%82%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE">第3层隧道协议</a></li>
+<li><a href="#%E7%AC%AC4%E5%B1%82%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE">第4层隧道协议</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%B1%82%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE">应用层安全协议</a><ul>
+<li><a href="#pgp">PGP</a></li>
+<li><a href="#smime">S/MIME</a><ul>
+<li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
+</ul>
+</li>
+<li><a href="#smtp">SMTP</a><ul>
+<li><a href="#%E5%8E%9F%E7%90%86-1">原理</a></li>
+</ul>
+</li>
+<li><a href="#pop3">POP3</a></li>
+<li><a href="#ssh">SSH</a><ul>
+<li><a href="#ssh%E4%BD%93%E7%B3%BB">SSH体系</a></li>
+</ul>
+</li>
+<li><a href="#set">SET</a><ul>
+<li><a href="#set%E7%BB%84%E6%88%90">SET组成</a></li>
+<li><a href="#set%E4%BA%A4%E6%98%93%E6%B5%81%E7%A8%8B">SET交易流程</a></li>
+<li><a href="#%E5%8F%8C%E9%87%8D%E7%AD%BE%E5%90%8D">双重签名</a></li>
+</ul>
+</li>
+<li><a href="#s-http">S-HTTP</a></li>
+<li><a href="#https">HTTPS</a></li>
+</ul>
+</li>
 </ul>
 <!-- tocstop -->
 
-<p>[toc]</p>
 <h1><span id="pki">PKI</span></h1><p>公钥基础设施（Public Key Infrastructure）：是基于非对称密码体制（公钥密码体制）的，用来生成、管理、存储、分发和撤销数字证书的一套硬件、软件、人员、策略和过程。</p>
 <h2><span id="pki体系">PKI体系</span></h2><ul>
 <li>认证中心CA（Certificate Authority）：证书的签发机构</li>
-<li>注册机构RA（Registration Authority）：CA的延展，承担会多从CA处继承的管理功能</li>
-<li>证书库（Certification Library）</li>
+<li>注册机构RA（Registration Authority）：CA的延展，承担会多从CA处继承的管理功能，<strong>RA不容许直接颁发证书或CRL。</strong></li>
+<li>证书库（Certification Library）：CA颁发证书和==证书撤销列表CRL==（Certificate Revocation List）的集中存放地，提供公众查询，常用目录服务器提供服务，采用==LDAP（Lightweight Directory Access Protocol）目录访问协议==。</li>
 </ul>
 <h2><span id="数字信封">数字信封</span></h2><p>信息发送端使用接收端的公钥，将一个通信密钥（对称密钥）进行加密，生成一个数字信封。</p>
 <p>信息接收端使用自己的私钥打开数字信封，获取通信密钥，用它来解密被加密的信息。</p>
 <p><img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200915584.png" alt="image-20231118200915584" style="zoom:80%;"><img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118200921148.png" alt="image-20231118200921148" style="zoom:80%;"></p>
-<h1><span id="vpn">VPN</span></h1><p>VPN (Virtual Private Network)（虚拟专用网络）：是使用隧道技术，在公共网络创建出虚拟的、点到点安全连接的专用网络的技术。</p>
 <h1><span id="ipsec">IPSec</span></h1><p>IPSec（IP Security）是Internet的网络层安全协议，用于在IP网络上提供数据的加密、认证和完整性保护。</p>
 <img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231118210352118.png" alt="image-20231118210352118" style="zoom: 50%;">
 
@@ -137,10 +181,10 @@
 <ul>
 <li>安全参数索引（Security Parameters Index）：此32比特和目的IP地址、IPSec协议（AH或ESP）组合即可==确定SA==，以确定采用的IPSec协议、操作模式、密码算法、密钥等。当建立新SA时，SPI的产生由目的系统选择。</li>
 <li>序列号（Sequence Number Field）：单调增加的32位无符号整数，利用该域==抵抗重发攻击（Replay Attack）==。每个IPSec分组依次将序列号加1.</li>
-<li>认证数据（Authentication Data Variable）：是一个长度可变的域，长度为32比特的整数倍。具体格式因认证算法而异 。该认证数据也被称为==数据报的完整性校验值==（Integrity Check Value,== ICV==）</li>
+<li>认证数据（Authentication Data Variable）：是一个长度可变的域，长度为32比特的整数倍。具体格式因认证算法而异 。该认证数据也被称为==数据报的完整性校验值==（Integrity Check Value,==ICV==）</li>
 </ul>
 <h2><span id="封装安全载荷头标espencapsulating-security-payload-的原理稍微了解下">封装安全载荷头标ESP(Encapsulating Security Payload) 的原理稍微了解下</span></h2><ol>
-<li>ESP提供数据保密、无连接完整性、抗重播服务</li>
+<li>ESP提供==数据保密==、无连接完整性、抗重播服务</li>
 <li>ESP大都采用对称密码体制加密数据</li>
 <li>ESP使用消息认证码（MAC）提供认证服务</li>
 </ol>
@@ -159,7 +203,132 @@
 <h1><span id="ike">IKE</span></h1><p>IKE（Internet Key Exchange）：因特网密钥交换协议，是在IPSec（Internet Protocol Security）中用于建立安全通信的协议。它是一种自动化的密钥管理协议，用于协商和交换用于加密和认证的密钥。</p>
 <h1><span id="isakmp">ISAKMP</span></h1><p>ISAKMP（Internet Security Association and Key Management Protocol）：因特网安全组合和密钥管理协议，是用于建立和管理安全关联（Security Association，SA）和密钥的协议。它是在IPSec（Internet Protocol Security）中使用的主要协议之一，用于进行密钥交换和安全参数协商。</p>
 <p>ISAKMP通常与IKE（Internet Key Exchange）一起使用，共同实现IPSec中的安全通信。IKE是基于ISAKMP的一种实现，它在ISAKMP的基础上进一步扩展和定义了建立和管理安全关联的过程。</p>
-<h1><span id="ssltls">SSL/TLS</span></h1>
+<h1><span id="ssltls">SSL/TLS</span></h1><p>SSL（Secure Sockets Layer）安全套阶层和TLS（Transport Layer Security）安全传输协议，是用于加密和保护网络通信的安全协议。</p>
+<p>SSL是TLS的前身，TLS是SSL的继任者。两者的目的和原理非常相似，都是为了确保通信的机密性、完整性和可信性。</p>
+<p>SSL/TLS通常在Web浏览器和Web服务器之间建立安全连接，以保护网站和应用程序的数据传输。</p>
+<h2><span id="ssl">SSL</span></h2><p>SSL （Secure Socket Layer）是一种在TCP协议之上为两个端实体（End Entity）之间提供安全通道的协议。包括SSLv2、SSLv3、TLS协议</p>
+<p>SSL协议分两层</p>
+<ul>
+<li>底层： 记录协议层，是SSL/TLS协议的底层协议层，==负责对数据进行分段、加密、认证和完整性保护==。该层将应用层的数据分割为适当大小的记录，并使用加密算法对记录进行加密，以保护数据的机密性。记录协议层还使用消息鉴别码（MAC）来验证数据的完整性和认证。</li>
+<li>上层 ：握手协议层，是SSL/TLS协议的上层协议层，==负责在通信的开始阶段进行身份验证和密钥交换==。该层通过一系列的握手步骤，客户端和服务器之间交换随机数、数字证书和其他必要的信息，以建立安全的连接。握手协议层还负责验证服务器的数字证书和协商会话密钥，用于后续的对称加密通信。</li>
+</ul>
+<h1><span id="防火墙">防火墙</span></h1><h2><span id="包过滤型防火墙-packet-filtering-firewall的概念">包过滤型防火墙 (packet Filtering Firewall)的概念</span></h2><p>包过滤防火墙基于规则集来确定是否允许或拒绝特定类型的数据包通过网络。这些规则集可以基于源IP地址、目标IP地址、端口号、协议类型等多个因素进行定义。</p>
+<h2><span id="状态检测防火墙stateful-inspection-firewall的概念">状态检测防火墙(Stateful Inspection Firewall)的概念</span></h2><p>状态检测防火墙是在包过滤防火墙基础上增加了连接状态追踪功能的一种高级防火墙技术</p>
+<p>通过建立一个出网的TCP连接目录而加强TCP数据流的检测规则(连接记录)，报文过滤机制只允许那些和目录中某个连接匹配的数据流通过防火墙</p>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119105705281.png" alt="image-20231119105705281" style="zoom: 33%;">
+
+<h2><span id="ids">IDS</span></h2><p>IDS（Intrusion Detection System）：入侵检测系统，是一种用于检测和监控网络或系统中的入侵行为的安全工具。</p>
+<h1><span id="nat">NAT</span></h1><p>NAT（Network Address Translation）：网络地址转换，是一种网络协议和技术，用于在互联网和局域网之间转换IP地址。它允许多个设备共享单个公共IP地址，并提供了一种有效管理和分配IP地址的方法。</p>
+<p>NAT将数据包中的端口号和专用的IP地址换成它自己的某个端口号和公用的IP地址，然后将数据包发给外部网络的目的主机，同时记录一个跟踪信息在映射表中，以便向客户机发送回答信息时的反映射。</p>
+<h2><span id="分类">分类</span></h2><ul>
+<li>SNAT(Source NAT)：源网络地址转换，即IP伪装（masquerade）</li>
+<li>DNAT(Destination NAT)：目的网络地址转换。</li>
+</ul>
+<h1><span id="vpn">VPN</span></h1><p>VPN (Virtual Private Network)（虚拟专用网络）：是使用隧道技术，在公共网络创建出虚拟的、点到点安全连接的专用网络的技术。</p>
+<h2><span id="隧道技术">隧道技术</span></h2><p>隧道技术就是利用隧道协议对隧道两端的数据进行封装的技术，隧道协议通常有第2层、第3层和第四层（SSL）隧道协议</p>
+<h3><span id="第2层隧道协议">第2层隧道协议</span></h3><p>第二层隧道协议是先把各种网络协议封装到PPP中，再把整个数据包装入隧道协议中。这种双层封装方法形成的数据包靠第二层协议进行传输。</p>
+<p>PPP（Point-to-Point Protocol）是一种数据链路层协议，用于在两个网络节点之间建立点对点连接。</p>
+<p>第二层隧道协议有L2F、PPTP、L2TP等。L2F（Layer 2 Forwarding）/ PPTP（Point-to-Point Tunneling Protocol ）/ L2TP（Layer 2 Tunneling Protocol） 都是远程访问VPN的协议， L2TP协议是目前IETF的标准， 是在L2F和PPTP基础上进行综合，其格式是基于L2F，信令是基于PPTP。</p>
+<h4><span id="l2f">L2F</span></h4><p>L2F（Layer 2 Forwarding）：第二层转发协议，用于在公共网络上建立虚拟私人网络（VPN）连接。L2F协议允许远程用户通过公共网络访问私人网络资源，同时提供了对数据的加密和身份验证功能。</p>
+<h4><span id="l2tp">L2TP</span></h4><p>L2TP（Layer 2 Tunneling Protocol）：第2层隧道协议，是一种<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE?fromModule=lemma_inlink">虚拟隧道协议</a>，通常用于<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E4%B8%93%E7%94%A8%E7%BD%91?fromModule=lemma_inlink">虚拟专用网</a>。L2TP协议自身不提供<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8A%A0%E5%AF%86?fromModule=lemma_inlink">加密</a>与可靠性验证的功能，可以和<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE?fromModule=lemma_inlink">安全协议</a>搭配使用，从而实现数据的加密传输。经常与L2TP协议搭配的加密协议是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/IPsec?fromModule=lemma_inlink">IPsec</a>，当这两个协议搭配使用时，通常合称L2TP/IPsec。</p>
+<h4><span id="pptp">PPTP</span></h4><p>PPTP（Point-to-Point Tunneling Protocol）：是一种用于建立虚拟私人网络（VPN）连接的隧道协议。PPTP协议允许远程用户通过公共网络（如互联网）安全地访问私人网络资源。</p>
+<h3><span id="第3层隧道协议">第3层隧道协议</span></h3><p>IPSec：隧道模式可以用于VPN构建，其提供的认证、加密功能适用于建立VPN安全环境，它既能提供LAN间VPN，也能提供远程访问型VPN</p>
+<p>MPLS VPN：提供QoS保障，需要核心网络支持MPLS。</p>
+<h4><span id="mpls">MPLS</span></h4><p>MPLS（Multi Protocol Label Switching）：多协议标记（标签）交换</p>
+<p>MPLS吸收了ATM网络的交换思想，集成了IP路由技术的灵活性和第2层交换的简捷性，将第二层的基础设施和第三层的路由进行有机结合，路由功能在网络边缘，MPLS核心网络采用MPLS交换。为IP网络提供了面向连接的交换。</p>
+<h3><span id="第4层隧道协议">第4层隧道协议</span></h3><p>SSL VPN：无需专门的客户端，只要支持web访问即可，与操作系统无关，穿越防火墙和NAT</p>
+<h1><span id="应用层安全协议">应用层安全协议</span></h1><h2><span id="pgp">PGP</span></h2><p>PGP（Pretty Good Privacy）：优良保密协议，是一种基于Internet的保密电子邮件软件系统，能提供邮件加密、数字签名、认证、数据压缩和密钥管理功能。</p>
+<p>PGP采用==ZIP压缩算法对邮件数据进行压缩==，采用==IDEA对压缩后的数据进行加密==，采用==MD5对邮件数据进行散列处理==，采用==RSA对邮件数据的散列值进行数字签名==，采用==支持公钥证书的密钥管理==，采用==先签名后加密的数字签名方案==</p>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119133110010.png" alt="image-20231119133110010" style="zoom:50%;">
+
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119133254212.png" alt="image-20231119133254212" style="zoom: 50%;">
+
+<h2><span id="smime">S/MIME</span></h2><p>S/MIME（Secure/MultipurposeInternet Mail Extensions）：安全/多用途互联网邮件扩充协议，是一种用于保护电子邮件的安全标准，提供了加密和数字签名的功能。</p>
+<h3><span id="原理">原理</span></h3><ol>
+<li>密钥对生成：邮件发送方生成一对非对称密钥，包括公钥和私钥。公钥将用于加密邮件，私钥将用于对邮件进行签名。</li>
+<li>数字证书获取：发送方将其公钥打包为数字证书，并向认证机构（CA）申请数字证书。CA验证发送方的身份并签署数字证书，证明该公钥确实属于发送方。</li>
+<li>数字证书传递：发送方将获得的数字证书发送给邮件接收方。</li>
+<li>加密：发送方使用接收方的公钥对电子邮件进行加密。只有持有相应私钥的接收方才能解密邮件内容。</li>
+<li>签名：发送方使用自己的私钥对电子邮件进行数字签名。接收方可以使用发送方的公钥验证签名的有效性和完整性。</li>
+<li>数字证书验证：接收方使用数字证书验证发送方的身份和公钥的有效性。如果数字证书无效或被篡改，接收方将收到警告。</li>
+<li>解密：接收方使用自己的私钥解密邮件内容，以获取原始的明文信息。</li>
+<li>签名验证：接收方使用发送方的公钥验证电子邮件的签名。如果签名无效，接收方将收到警告。</li>
+</ol>
+<ul>
+<li>透明签名: ==签名但不加密==.只对签名进行基64变换，这样具有MIME支持而没有S/MIME权能的接收者也能读取，但无法验证签名</li>
+<li>使用X.509证书</li>
+</ul>
+<h2><span id="smtp">SMTP</span></h2><p>SMTP（Simple Mail Transfer Protocol）：简单邮件传输协议，是用于==发送电子邮件==的标准协议。它定义了电子邮件客户端和服务器之间进行邮件传输的规则和格式。</p>
+<h3><span id="原理">原理</span></h3><ol>
+<li>连接建立：SMTP客户端（发送方）通过TCP/IP连接到SMTP服务器（接收方），通常使用25号端口进行连接。</li>
+<li>握手过程：客户端和服务器之间进行握手，包括服务器的识别信息和客户端的身份验证（如果需要）。常见的身份验证方法包括基于口令的身份验证。</li>
+<li>邮件传输：客户端将邮件发送给服务器，包括邮件的头部和正文内容。头部包含发件人、收件人、主题和其他相关信息。</li>
+<li>邮件路由：服务器接收到邮件后，根据收件人的域名（例如example.com）查询DNS（Domain Name System）以确定邮件的下一步传递目标。DNS记录会指定邮件的接收服务器。</li>
+<li>传递和存储：服务器将邮件传递给目标服务器。如果目标服务器不是最终的接收服务器，它会将邮件转发给下一个服务器，直到邮件达到最终的目标服务器。</li>
+<li>接收和存储：最终的接收服务器接收到邮件后，将其存储在收件人的邮箱或邮件服务器上，以便收件人可以通过其他协议（如POP3或IMAP）来访问和下载邮件。</li>
+</ol>
+<p>存在的问题</p>
+<ul>
+<li><p>SMTP不能传输可执行文件和其他二进制码 (jpeg image)，二进制转换成文本格式，现在方案缺少标准</p>
+</li>
+<li><p>SMTP只能传输7-位ASCII字符的文字，而中文字符等无法直接使用</p>
+</li>
+<li><p>SMTP服务器拒绝接收超长邮件</p>
+</li>
+<li><p>ASCII 到 EBCDIC 转换问题</p>
+</li>
+</ul>
+<h2><span id="pop3">POP3</span></h2><p>POP3（Post Office Protocol version 3）：邮局协议版本3，是一种用于接收电子邮件的标准协议。它允许电子邮件客户端从邮件服务器上下载邮件，并将其存储在本地设备上。</p>
+<h2><span id="ssh">SSH</span></h2><p>SSH（Secure Shell）：安全外壳协议，是一种用于远程登录和安全文件传输的网络协议。它提供了加密的通信通道，用于保护远程访问的安全性。</p>
+<h3><span id="ssh体系">SSH体系</span></h3><img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119154036298.png" alt="image-20231119154036298" style="zoom:50%;">
+
+<ul>
+<li>SSH传输层协议：提供服务器主机认证，提供数据加密，提供数据完整性支持</li>
+<li>SSH认证协议：为服务器提供用户的身份认证</li>
+<li>SSH连接协议：将加密的信息隧道复用成若干个逻辑通道，提供给高层的应用协议使用。</li>
+</ul>
+<h2><span id="set">SET</span></h2><p>SET（Secure Electronic Transaction）：安全电子交易协议，</p>
+<h3><span id="set组成">SET组成</span></h3><ul>
+<li>持卡人（Cardholder）:由发卡行所发行的支付卡的授权持有者</li>
+<li>商家(Merchant):出售商品或服务的个人或机构，商家必须与收单行建立业务联系以接受支付卡这种付款方式</li>
+<li>发卡行（Issuer）：为持卡人建立一个帐户，并发行支付卡的金融机构</li>
+<li>收单行（Aquirer）:为商家建立帐户并处理支付卡授权和支付的金融机构</li>
+<li>支付网关（payment gateway）：由收单行操作的设备，实现对支付信息从Internet到银行内部网络的转换，并对商家和持卡人进行认证</li>
+</ul>
+<h3><span id="set交易流程">SET交易流程</span></h3><img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119155603782.png" alt="image-20231119155603782" style="zoom:50%;">
+
+<ol>
+<li>持卡人选定要购买的商品 </li>
+<li>持卡人将订货信息(OI)和支付信息(PI)发送给商户</li>
+<li>商户通过支付网关将支付信息(PI)转发给收单行</li>
+<li>收单行通过银行网络向发卡行请求支付认可</li>
+<li>发卡行对收单行进行支付授权</li>
+<li>收单行向商家返回授权确认信息</li>
+<li>得到授权确认后，商家即可发送货物或提供服务</li>
+<li>发卡行将银行卡账单发送给持卡人</li>
+</ol>
+<h3><span id="双重签名">双重签名</span></h3><h4><span id="生成过程">生成过程</span></h4><ul>
+<li><p>客户用Hash函数对订购信息和支付信息进行散列处理，分别得到<strong>订购信息的消息摘要</strong>和<strong>支付信息的消息摘要。</strong></p>
+</li>
+<li><p>将两个消息摘要连接起来再用[Hash函数]进行散列处理，得到<strong>支付订购消息摘要。</strong></p>
+</li>
+<li><p>客户用他的私钥加密支付订购消息摘要，最后得到的就是经过<strong>双重签名</strong>的信息。</p>
+</li>
+</ul>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119161338991.png" alt="image-20231119161338991" style="zoom: 33%;">
+
+<h4><span id="使用和验证">使用和验证</span></h4><ol>
+<li><p>客户将“==订购信息==+==支付信息的消息摘要==+双重签名”发给商家，将“==支付信息==+==订购信息的消息摘要==+双重签名”发给银行；</p>
+</li>
+<li><p>商家和银行对收到的信息先生成摘要，再与==另一个摘要==连接起来，如果它与解密后的双重签名（利用客户的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%AC%E9%92%A5/6447788?fromModule=lemma_inlink">公钥</a>）相等，就可确定消息的真实性。</p>
+</li>
+</ol>
+<p>商家看不到顾客账户信息、银行不知道客户的购买信息，但都可确认另一方是真实的。</p>
+<img src="/2023/11/18/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/image-20231119161603134.png" alt="image-20231119161603134" style="zoom:50%;">
+
+<h2><span id="s-http">S-HTTP</span></h2><p>S-HTTP（Secure Hypertext Transfer Protocol）：安全超文本传输协议，是一种用于保护HTTP通信安全的协议。它是HTTP协议的扩展，通过在HTTP协议上添加加密和身份验证功能来提供更安全的数据传输。</p>
+<h2><span id="https">HTTPS</span></h2><p>HTTPS是在传输层使用SSL的HTTP。</p>
+
       
     </div>
     <footer class="article-footer">
